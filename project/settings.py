@@ -99,8 +99,8 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID", "").strip()
-RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET", "").strip()
+RAZORPAY_KEY_ID = os.environ.get("rzp_test_TZF5GQApM1qkDF", "").strip()
+RAZORPAY_KEY_SECRET = os.environ.get("5fv1NORuq7o54TA0fjZTJYHx", "").strip()
 
 EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND",
