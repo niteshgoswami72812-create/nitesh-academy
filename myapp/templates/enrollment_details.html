@@ -10,7 +10,7 @@
         <p>You are enrolling in <strong>{{ course.name }}</strong>.</p>
     </div>
 
-    <div class="glass-panel" style="max-width:980px;margin:auto;padding:30px;">
+    <div class="glass-panel" style="max-width:980px;margin:auto;padding:clamp(18px,4vw,30px);">
         {% if form.non_field_errors %}
             <div class="form-message error">{{ form.non_field_errors }}</div>
         {% endif %}

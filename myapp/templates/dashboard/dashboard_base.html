@@ -497,7 +497,19 @@
             color: #fcd34d;
         }
 
-    </style>
+    
+        @media (max-width: 650px) {
+            .topbar { height: 64px; padding: 0 14px; gap: 10px; }
+            .content { padding: 14px !important; overflow-x: hidden; }
+            .sidebar { width: min(280px, 86vw); }
+            .mobile-menu { flex: 0 0 auto; }
+            .topbar-actions { gap: 8px; }
+            .page-header, .page-head { flex-direction: column; align-items: stretch !important; gap: 12px; }
+            form { max-width: 100%; }
+            input, select, textarea, button { max-width: 100%; }
+            .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        }
+</style>
 
     {% block extra_css %}
     {% endblock %}
