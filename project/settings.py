@@ -112,3 +112,9 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER or "noreply@niteshacademy.local")
 EMAIL_TIMEOUT = 10
+
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "").strip()
+RESEND_FROM_EMAIL = os.environ.get(
+    "RESEND_FROM_EMAIL",
+    "Nitesh Academy <onboarding@resend.dev>"
+)

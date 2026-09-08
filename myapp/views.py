@@ -6,11 +6,14 @@ from .forms import (
     StudentProfileForm,
 )
 import json
+import os
+import base64
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from urllib.parse import urlencode
 
 import razorpay
+import resend
 
 from django.conf import settings
 from django.contrib import messages
@@ -539,14 +542,21 @@ def enrollment_details(request):
 
             email_sent = False
             try:
-                send_mail(
-                    subject,
-                    email_body,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [profile.email],
-                    fail_silently=False,
-                )
+                resend.api_key = os.environ.get("RESEND_API_KEY", "").strip()
+                if not resend.api_key:
+                    raise RuntimeError("RESEND_API_KEY is not configured.")
+
+                resend.Emails.send({
+                    "from": os.environ.get(
+                        "RESEND_FROM_EMAIL",
+                        "Nitesh Academy <onboarding@resend.dev>",
+                    ).strip(),
+                    "to": [profile.email],
+                    "subject": subject,
+                    "text": email_body,
+                })
                 email_sent = True
+                print("Enrollment email sent via Resend to:", profile.email)
             except Exception as error:
                 print("Enrollment email error:", repr(error))
 
@@ -1128,14 +1138,6 @@ def payment_success(request):
             "Thank you for choosing Nitesh Academy."
         )
 
-        receipt_mail = EmailMultiAlternatives(
-            subject=f"Payment Receipt - {payment_record.receipt_number}",
-            body=plain_message,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=[receipt_email],
-        )
-        receipt_mail.attach_alternative(html_message, "text/html")
-
         # Professional dark-theme PDF receipt attachment
         pdf_buffer = BytesIO()
         pdf = canvas.Canvas(pdf_buffer, pagesize=A4)
@@ -1392,15 +1394,30 @@ def payment_success(request):
         pdf.save()
         pdf_buffer.seek(0)
 
-        receipt_mail.attach(
-            f"{payment_record.receipt_number}.pdf",
-            pdf_buffer.read(),
-            "application/pdf",
-        )
+        pdf_bytes = pdf_buffer.read()
 
         try:
-            receipt_mail.send(fail_silently=False)
-            print("Payment receipt email sent to:", receipt_email)
+            resend.api_key = os.environ.get("RESEND_API_KEY", "").strip()
+            if not resend.api_key:
+                raise RuntimeError("RESEND_API_KEY is not configured.")
+
+            resend.Emails.send({
+                "from": os.environ.get(
+                    "RESEND_FROM_EMAIL",
+                    "Nitesh Academy <onboarding@resend.dev>",
+                ).strip(),
+                "to": [receipt_email],
+                "subject": f"Payment Receipt - {payment_record.receipt_number}",
+                "text": plain_message,
+                "html": html_message,
+                "attachments": [
+                    {
+                        "filename": f"{payment_record.receipt_number}.pdf",
+                        "content": base64.b64encode(pdf_bytes).decode("ascii"),
+                    }
+                ],
+            })
+            print("Payment receipt email sent via Resend to:", receipt_email)
         except Exception as error:
             print("Payment receipt email error:", repr(error))
 
