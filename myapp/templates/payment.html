@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}
+Payment | Nitesh Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="section-container payment-page">
+
+    <div class="payment-layout">
+
+        <article class="payment-card glass-panel">
+            <h1>Review your enrollment</h1>
+
+            <div id="paymentItems">
+                <p>Loading course information...</p>
+            </div>
+        </article>
+
+        <aside class="payment-card glass-panel">
+            <h2>Payment summary</h2>
+
+            <div class="payment-total">
+                <span>Total payable</span>
+
+                <strong>
+                    ₹{{ display_total|floatformat:2 }}
+                </strong>
+            </div>
+
+            <button
+                type="button"
+                class="button button-primary button-large"
+                id="rzp-button"
+            >
+                Pay ₹{{ display_total|floatformat:2 }}
+            </button>
+
+            <p id="paymentMessage"></p>
+        </aside>
+
+    </div>
+
+</section>
+
+<form
+    id="payment-form"
+    action="{% url 'payment_success' %}"
+    method="POST"
+    hidden
+>
+    {% csrf_token %}
+
+    <input
+        type="hidden"
+        name="razorpay_payment_id"
+        id="razorpay_payment_id"
+    >
+
+    <input
+        type="hidden"
+        name="razorpay_order_id"
+        id="razorpay_order_id"
+    >
+
+    <input
+        type="hidden"
+        name="razorpay_signature"
+        id="razorpay_signature"
+    >
+</form>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const paymentButton =
+        document.getElementById("rzp-button");
+
+    const paymentMessage =
+        document.getElementById("paymentMessage");
+
+    const paymentItems =
+        document.getElementById("paymentItems");
+
+    let cart = [];
+
+    try {
+        cart = JSON.parse(
+            "{{ cart_json|escapejs }}"
+        );
+    } catch (error) {
+        console.error("Cart parse error:", error);
+    }
+
+    if (Array.isArray(cart) && cart.length > 0) {
+        paymentItems.innerHTML = cart.map(function (item) {
+            const price = parsePrice(item.price);
+            const quantity = parseQuantity(item.quantity);
+
+            return `
+                <div class="payment-item">
+                    <div>
+                        <strong>
+                            ${escapeHtml(item.name || "Course")}
+                        </strong>
+
+                        <span>
+                            Quantity: ${quantity}
+                        </span>
+                    </div>
+
+                    <strong>
+                        ₹${formatAmount(price * quantity)}
+                    </strong>
+                </div>
+            `;
+        }).join("");
+    } else {
+        paymentItems.innerHTML =
+            "<p>No purchase information found.</p>";
+    }
+
+    const razorpayKey =
+        "{{ razorpay_key|escapejs }}";
+
+    const razorpayOrderId =
+        "{{ payment.id|escapejs }}";
+
+    const razorpayAmount =
+        Number("{{ payment.amount }}");
+
+    const razorpayCurrency =
+        "{{ payment.currency|escapejs }}";
+
+    console.log("Razorpay Order:", razorpayOrderId);
+    console.log("Razorpay Amount:", razorpayAmount);
+
+    if (
+        !razorpayKey ||
+        !razorpayOrderId ||
+        !Number.isFinite(razorpayAmount)
+    ) {
+        paymentButton.disabled = true;
+        paymentMessage.textContent =
+            "Payment configuration is incomplete.";
+
+        return;
+    }
+
+    const options = {
+        key: razorpayKey,
+        amount: razorpayAmount,
+        currency: razorpayCurrency,
+        name: "Nitesh Academy",
+        description: "Course Enrollment",
+        order_id: razorpayOrderId,
+
+        handler: function (response) {
+            document.getElementById(
+                "razorpay_payment_id"
+            ).value = response.razorpay_payment_id;
+
+            document.getElementById(
+                "razorpay_order_id"
+            ).value = response.razorpay_order_id;
+
+            document.getElementById(
+                "razorpay_signature"
+            ).value = response.razorpay_signature;
+
+            document.getElementById(
+                "payment-form"
+            ).submit();
+        },
+
+        modal: {
+            ondismiss: function () {
+                paymentButton.disabled = false;
+                paymentButton.textContent =
+                    "Pay ₹{{ display_total|floatformat:2 }}";
+
+                paymentMessage.textContent =
+                    "Payment window was closed.";
+            }
+        },
+
+        theme: {
+            color: "#ff3f46"
+        }
+    };
+
+    const razorpayCheckout =
+        new Razorpay(options);
+
+    razorpayCheckout.on(
+        "payment.failed",
+        function (response) {
+            paymentButton.disabled = false;
+            paymentButton.textContent =
+                "Try Payment Again";
+
+            paymentMessage.textContent =
+                response.error?.description ||
+                "Payment could not be completed.";
+
+            console.error(
+                "Razorpay payment failed:",
+                response.error
+            );
+        }
+    );
+
+    paymentButton.addEventListener(
+        "click",
+        function () {
+            paymentMessage.textContent = "";
+            razorpayCheckout.open();
+        }
+    );
+
+    function parsePrice(value) {
+        const cleaned = String(value || "")
+            .replace(/₹/g, "")
+            .replace(/,/g, "")
+            .trim();
+
+        const price = Number.parseFloat(cleaned);
+
+        return Number.isFinite(price) ? price : 0;
+    }
+
+    function parseQuantity(value) {
+        const quantity =
+            Number.parseInt(value, 10);
+
+        return Number.isFinite(quantity) &&
+            quantity > 0
+            ? quantity
+            : 1;
+    }
+
+    function formatAmount(value) {
+        return Number(value).toLocaleString(
+            "en-IN",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+    }
+
+    function escapeHtml(value) {
+        const element =
+            document.createElement("div");
+
+        element.textContent =
+            String(value || "");
+
+        return element.innerHTML;
+    }
+});
+</script>
+
+{% endblock %}

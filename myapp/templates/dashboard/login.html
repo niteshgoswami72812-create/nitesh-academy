@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | Nitesh Academy</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(255, 55, 65, 0.12),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(128, 20, 28, 0.12),
+                    transparent 30%
+                ),
+                #070a10;
+
+            color: #ffffff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1050px;
+            min-height: 610px;
+
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+
+            overflow: hidden;
+
+            border-radius: 28px;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            background: rgba(13, 17, 25, 0.82);
+
+            backdrop-filter: blur(22px);
+
+            box-shadow:
+                0 35px 100px rgba(0, 0, 0, 0.55),
+                0 0 60px rgba(255, 50, 60, 0.05);
+        }
+
+        /* =========================
+           LEFT SIDE
+        ========================= */
+
+        .login-left {
+            position: relative;
+
+            padding: 65px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 65, 72, 0.11),
+                    rgba(8, 11, 17, 0.92)
+                );
+
+            border-right:
+                1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .login-left::before {
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 55, 65, 0.13);
+
+            filter: blur(80px);
+
+            top: -120px;
+            left: -130px;
+        }
+
+        .login-left::after {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            border-radius: 50%;
+
+            background: rgba(170, 20, 30, 0.12);
+
+            filter: blur(80px);
+
+            right: -120px;
+            bottom: -100px;
+        }
+
+        .brand,
+        .welcome-content,
+        .security-box {
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff4b53,
+                    #9f171e
+                );
+
+            box-shadow:
+                0 10px 30px rgba(255, 55, 65, 0.25);
+
+            font-size: 23px;
+        }
+
+        .brand h2 {
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .brand h2 span {
+            color: #ff454d;
+        }
+
+        .brand p {
+            margin-top: 4px;
+
+            color: #818a99;
+
+            font-size: 12px;
+        }
+
+        .welcome-content {
+            margin: 70px 0;
+        }
+
+        .welcome-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+
+            border-radius: 50px;
+
+            border: 1px solid rgba(255, 70, 78, 0.2);
+
+            background: rgba(255, 70, 78, 0.07);
+
+            color: #ff6d73;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .welcome-content h1 {
+            margin-top: 22px;
+
+            max-width: 440px;
+
+            font-size: 43px;
+            line-height: 1.12;
+
+            letter-spacing: -1px;
+        }
+
+        .welcome-content h1 span {
+            color: #ff454d;
+        }
+
+        .welcome-content p {
+            max-width: 430px;
+
+            margin-top: 20px;
+
+            color: #8d96a5;
+
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .security-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            color: #777f8d;
+
+            font-size: 11px;
+        }
+
+        .security-box i {
+            color: #ff555c;
+        }
+
+        /* =========================
+           RIGHT SIDE
+        ========================= */
+
+        .login-right {
+            padding: 65px 55px;
+
+            display: flex;
+            align-items: center;
+
+            background: rgba(8, 11, 17, 0.65);
+        }
+
+        .form-area {
+            width: 100%;
+        }
+
+        .form-heading {
+            margin-bottom: 35px;
+        }
+
+        .form-heading h2 {
+            font-size: 29px;
+            font-weight: 800;
+        }
+
+        .form-heading p {
+            margin-top: 9px;
+
+            color: #7e8796;
+
+            font-size: 13px;
+        }
+
+        /* Django Messages */
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 13px 15px;
+
+            margin-bottom: 10px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+        }
+
+        .message.error {
+            color: #ff9ca0;
+
+            background: rgba(255, 65, 72, 0.1);
+
+            border: 1px solid rgba(255, 65, 72, 0.22);
+        }
+
+        .message.success {
+            color: #73e69c;
+
+            background: rgba(34, 197, 94, 0.1);
+
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 9px;
+
+            color: #b8bfca;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .input-box {
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+
+            border-radius: 11px;
+
+            border: 1px solid rgba(255, 255, 255, 0.09);
+
+            background: rgba(255, 255, 255, 0.035);
+
+            transition: 0.25s;
+        }
+
+        .input-box:focus-within {
+            border-color: rgba(255, 70, 78, 0.55);
+
+            box-shadow:
+                0 0 0 3px rgba(255, 70, 78, 0.07);
+        }
+
+        .input-box > i {
+            width: 50px;
+
+            text-align: center;
+
+            color: #687180;
+
+            font-size: 14px;
+        }
+
+        .input-box input {
+            width: 100%;
+            height: 100%;
+
+            border: none;
+            outline: none;
+
+            padding-right: 12px;
+
+            background: transparent;
+
+            color: #ffffff;
+
+            font-size: 13px;
+        }
+
+        .input-box input::placeholder {
+            color: #555e6c;
+        }
+
+        .password-toggle {
+            width: 50px;
+            height: 100%;
+
+            border: none;
+
+            cursor: pointer;
+
+            background: transparent;
+
+            color: #687180;
+
+            font-size: 14px;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 52px;
+
+            margin-top: 10px;
+
+            border: none;
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff474f,
+                    #c42129
+                );
+
+            box-shadow:
+                0 13px 35px rgba(255, 50, 60, 0.2);
+
+            transition: 0.25s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 17px 40px rgba(255, 50, 60, 0.3);
+        }
+
+        .login-button i {
+            margin-left: 7px;
+        }
+
+        .back-home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            margin-top: 24px;
+
+            color: #717a89;
+
+            font-size: 12px;
+
+            text-decoration: none;
+
+            transition: 0.2s;
+        }
+
+        .back-home:hover {
+            color: #ffffff;
+        }
+
+        .admin-note {
+            margin-top: 35px;
+
+            padding-top: 25px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.06);
+
+            color: #5f6876;
+
+            text-align: center;
+
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+            .login-wrapper {
+                max-width: 520px;
+                grid-template-columns: 1fr;
+            }
+
+            .login-left {
+                display: none;
+            }
+
+            .login-right {
+                padding: 55px 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .login-wrapper {
+                border-radius: 20px;
+            }
+
+            .login-right {
+                padding: 40px 24px;
+            }
+
+            .form-heading h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+    <!-- LEFT SECTION -->
+    <div class="login-left">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+
+            <div>
+                <h2>
+                    Nitesh <span>Academy</span>
+                </h2>
+
+                <p>Administration Portal</p>
+            </div>
+
+        </div>
+
+
+        <div class="welcome-content">
+
+            <div class="welcome-label">
+                <i class="fa-solid fa-shield-halved"></i>
+                Secure Admin Access
+            </div>
+
+            <h1>
+                Manage Your
+                <span>Academy</span>
+                Smarter.
+            </h1>
+
+            <p>
+                Access your custom administration dashboard to
+                manage students, courses, categories, payments
+                and your learning platform.
+            </p>
+
+        </div>
+
+
+        <div class="security-box">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <span>
+                Protected administrator authentication
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT SECTION -->
+    <div class="login-right">
+
+        <div class="form-area">
+
+            <div class="form-heading">
+
+                <h2>Admin Login</h2>
+
+                <p>
+                    Enter your administrator credentials to continue.
+                </p>
+
+            </div>
+
+
+            <!-- DJANGO MESSAGES -->
+
+            {% if messages %}
+
+                <div class="messages">
+
+                    {% for message in messages %}
+
+                        <div class="message {{ message.tags }}">
+
+                            {% if message.tags == "error" %}
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                            {% else %}
+                                <i class="fa-solid fa-circle-check"></i>
+                            {% endif %}
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- LOGIN FORM -->
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter admin username"
+                            autocomplete="username"
+                            required
+                            autofocus
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter admin password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword()"
+                            aria-label="Show or hide password"
+                        >
+
+                            <i
+                                id="passwordIcon"
+                                class="fa-regular fa-eye"
+                            ></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+
+                    Sign In to Dashboard
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
+
+            <a
+                href="{% url 'home' %}"
+                class="back-home"
+            >
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Nitesh Academy
+
+            </a>
+
+
+            <div class="admin-note">
+
+                This portal is restricted to authorized
+                Nitesh Academy administrators only.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+    function togglePassword() {
+        const password = document.getElementById("password");
+        const icon = document.getElementById("passwordIcon");
+
+        if (password.type === "password") {
+            password.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            password.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+</script>
+
+</body>
+</html>

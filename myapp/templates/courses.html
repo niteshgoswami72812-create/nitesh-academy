@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Course Categories | Nitesh Academy{% endblock %}
+
+{% block content %}
+<section class="page-hero section-container">
+    <span class="section-tag"><i class="fa-solid fa-grid-2"></i> Explore by category</span>
+    <h1>Choose a category. Build your next skill.</h1>
+    <p>Open any category to see all available courses, then select a course to view its topics and custom learning options.</p>
+</section>
+<marquee>Register before 31st August and get 15% discount!</marquee>
+<section class="section-container catalog-section">
+    <div class="catalog-heading">
+        <div>
+            <span class="section-tag"><i class="fa-solid fa-compass"></i> Course directory</span>
+            <h2>All categories</h2>
+        </div>
+        <div class="catalog-total"><strong>{{ course_count }}</strong><span>courses available</span></div>
+    </div>
+
+    {% if categories %}
+    <div class="category-grid">
+        {% for category in categories %}
+        <a class="category-card glass-panel" href="{% url 'category_courses' category.id %}">
+            <span class="category-card-icon"><i class="{{ category.icon|default:'fa-solid fa-layer-group' }}"></i></span>
+            <div class="category-card-copy">
+                <span class="category-kicker">Category {{ forloop.counter|stringformat:'02d' }}</span>
+                <h3>{{ category.name }}</h3>
+                <p>{{ category.description|default:'Explore structured courses, practical lessons and career-ready projects in this category.' }}</p>
+            </div>
+            <div class="category-card-footer">
+                <span><strong>{{ category.courses.count }}</strong> course{{ category.courses.count|pluralize }}</span>
+                <span class="category-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state glass-panel">
+        <i class="fa-solid fa-folder-open"></i>
+        <h2>No categories available</h2>
+        <p>Add your first category and course from the Django admin panel.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

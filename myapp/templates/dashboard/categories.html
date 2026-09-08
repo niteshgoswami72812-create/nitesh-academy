@@ -1,0 +1,133 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block content %}
+
+<div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+">
+
+    <div>
+
+        <h1>
+            Categories
+        </h1>
+
+        <p style="color:#7e8796;margin-top:7px;">
+            Manage your course categories.
+        </p>
+
+    </div>
+
+
+    <a
+        href="{% url 'dashboard_category_add' %}"
+        style="
+            padding:12px 18px;
+            border-radius:10px;
+            background:#e53239;
+            color:white;
+        "
+    >
+        + Add Category
+    </a>
+
+</div>
+
+
+<div style="
+    background:rgba(15,20,29,.8);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    overflow:hidden;
+">
+
+<table
+    style="
+        width:100%;
+        border-collapse:collapse;
+    "
+>
+
+    <tr>
+        <th style="padding:15px;text-align:left;">Name</th>
+        <th style="padding:15px;text-align:left;">Description</th>
+        <th style="padding:15px;text-align:left;">Courses</th>
+        <th style="padding:15px;text-align:left;">Actions</th>
+    </tr>
+
+
+    {% for category in categories %}
+
+    <tr style="border-top:1px solid rgba(255,255,255,.06);">
+
+        <td style="padding:15px;">
+            <i class="{{ category.icon }}"></i>
+            {{ category.name }}
+        </td>
+
+        <td style="padding:15px;">
+            {{ category.description|truncatechars:80 }}
+        </td>
+
+        <td style="padding:15px;">
+            {{ category.courses.count }}
+        </td>
+
+        <td style="padding:15px;">
+
+            <a
+                href="{% url 'dashboard_category_edit' category.id %}"
+                style="color:#ff777c;margin-right:15px;"
+            >
+                Edit
+            </a>
+
+
+            <form
+                method="POST"
+                action="{% url 'dashboard_category_delete' category.id %}"
+                style="display:inline;"
+                onsubmit="return confirm('Delete this category?');"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    style="
+                        border:none;
+                        background:none;
+                        color:#fb7185;
+                        cursor:pointer;
+                    "
+                >
+                    Delete
+                </button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    {% empty %}
+
+    <tr>
+        <td
+            colspan="4"
+            style="padding:40px;text-align:center;"
+        >
+            No categories found.
+        </td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

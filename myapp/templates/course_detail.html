@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.name }} | Nitesh Academy{% endblock %}
+
+{% block content %}
+<section class="section-container course-detail-page">
+    <nav class="catalog-breadcrumb" aria-label="Breadcrumb">
+        <a href="{% url 'courses' %}">Courses</a><i class="fa-solid fa-chevron-right"></i>
+        <a href="{% url 'category_courses' course.category.id %}">{{ course.category.name }}</a><i class="fa-solid fa-chevron-right"></i>
+        <span>{{ course.name }}</span>
+    </nav>
+
+    <div class="course-detail-layout">
+        <article class="course-main-card glass-panel">
+            <span class="section-tag"><i class="fa-solid fa-graduation-cap"></i> {{ course.category.name }}</span>
+            <h1>{{ course.name }}</h1>
+            <p class="course-lead">{{ course.description|default:'Learn through structured lessons, practical assignments and project-based guidance.' }}</p>
+
+            <div class="course-facts">
+                <div><i class="fa-regular fa-clock"></i><span><small>Duration</small><strong>{{ course.duration }}</strong></span></div>
+                <div><i class="fa-solid fa-list-check"></i><span><small>Curriculum</small><strong>{{ course.topics.count }} topics</strong></span></div>
+                <div><i class="fa-solid fa-indian-rupee-sign"></i><span><small>Base price</small><strong>₹{{ course.price }}</strong></span></div>
+            </div>
+
+            <section class="course-curriculum">
+                <div class="detail-section-heading"><span>Curriculum</span><h2>What you will learn</h2></div>
+                <ol class="curriculum-list">
+                    {% for topic in course.topics.all %}
+                    <li><span>{{ forloop.counter|stringformat:'02d' }}</span><p>{{ topic.name }}</p><i class="fa-solid fa-check"></i></li>
+                    {% empty %}
+                    <li><span>01</span><p>Curriculum topics will be updated soon.</p><i class="fa-regular fa-clock"></i></li>
+                    {% endfor %}
+                </ol>
+            </section>
+        </article>
+
+        <aside class="course-buy-card glass-panel">
+            <div class="buy-card-price"><small>Starting from</small><strong>₹<span id="courseFinalPrice">{{ course.price }}</span></strong></div>
+
+            <div class="course-options-block">
+                <div class="detail-section-heading"><span>Customize</span><h2>Choose your options</h2></div>
+                {% if course_options %}
+                <div class="course-option-list" id="courseOptionList">
+                    {% for option in course_options %}
+                    <label class="course-option-row">
+                        <input type="checkbox" class="course-option-input" value="{{ option.id }}" data-name="{{ option.name|escapejs }}" data-price="{{ option.price_delta }}" {% if option.is_default %}checked{% endif %}>
+                        <span class="option-check"><i class="fa-solid fa-check"></i></span>
+                        <span class="option-copy"><strong>{{ option.name }}</strong><small>{{ option.description|default:'Add this option to your learning package.' }}</small></span>
+                        <span class="option-price">{% if option.price_delta > 0 %}+₹{{ option.price_delta }}{% elif option.price_delta < 0 %}Discount ₹{{ option.price_delta }}{% else %}Free{% endif %}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="no-options"><i class="fa-solid fa-circle-info"></i><span>Standard course package selected.</span></div>
+                {% endif %}
+            </div>
+
+            <div class="quantity-control detail-quantity">
+                <span>Quantity</span>
+                <div class="quantity-buttons">
+                    <button type="button" class="quantity-button" data-action="decrease" data-course-id="{{ course.id }}"><i class="fa-solid fa-minus"></i></button>
+                    <span class="quantity-value" id="qty-{{ course.id }}">1</span>
+                    <button type="button" class="quantity-button" data-action="increase" data-course-id="{{ course.id }}"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+
+            <a href="{% url 'start_enrollment' course.id %}" class="button button-primary button-large" style="width:100%;margin-bottom:10px;"><i class="fa-solid fa-user-graduate"></i> Enroll Now</a>
+            <button type="button" class="button button-primary button-large course-detail-cart-button" id="courseDetailCartButton" data-course-id="{{ course.id }}" data-course-name="{{ course.name|escapejs }}" data-base-price="{{ course.price }}">
+                <i class="fa-solid fa-cart-plus"></i> Add selected package
+            </button>
+            <button type="button" class="button button-outline button-large course-detail-checkout-button" id="courseDetailCheckoutButton" data-checkout-url="{% url 'checkout' %}">
+                <i class="fa-solid fa-credit-card"></i> Checkout Now
+            </button>
+            <a href="{% url 'category_courses' course.category.id %}" class="back-to-category"><i class="fa-solid fa-arrow-left"></i> Back to {{ course.category.name }}</a>
+        </aside>
+    </div>
+</section>
+{% endblock %}

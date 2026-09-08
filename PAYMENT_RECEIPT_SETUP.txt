@@ -1,0 +1,18 @@
+Nitesh Academy - Payment Receipt Update
+
+After extracting the project, run:
+
+1. py manage.py migrate
+2. py manage.py runserver
+
+What was added:
+- Payment and PaymentItem database tables
+- Date of Birth field for new student registrations
+- Detailed payment receipt after successful Razorpay payment
+- Payment method, bank/wallet/UPI/card last 4 digits when Razorpay provides them
+- Purchased course details and amount
+- Print / Save PDF button
+- Admin Dashboard > Payments history
+- Secure receipt page available to the student who paid or a staff admin
+
+Existing users may show "Not provided" for Date of Birth because older accounts did not store DOB.

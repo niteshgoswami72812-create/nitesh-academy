@@ -1,0 +1,14 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% block title %}Enrollments | Nitesh Academy{% endblock %}
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:22px;flex-wrap:wrap;">
+    <div><h1>Enrollments</h1><p style="color:#8f98a8;margin-top:6px;">Student course enrollment records</p></div>
+    <form method="get" style="display:flex;gap:8px;"><input name="search" value="{{ search }}" placeholder="Search student or course" style="min-width:280px;padding:11px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:white;"><button style="padding:11px 16px;border:0;border-radius:10px;background:#3b82f6;color:white;cursor:pointer;">Search</button></form>
+</div>
+<div style="overflow:auto;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.03);">
+<table style="width:100%;border-collapse:collapse;min-width:800px;">
+<thead><tr style="text-align:left;color:#9ca6b6;border-bottom:1px solid rgba(255,255,255,.08);"><th style="padding:16px;">Student</th><th>Email</th><th>Course</th><th>Status</th><th>Email Sent</th><th>Date</th></tr></thead>
+<tbody>
+{% for item in enrollments %}<tr style="border-bottom:1px solid rgba(255,255,255,.06);"><td style="padding:16px;">{{ item.student.fullname }}</td><td>{{ item.student.email }}</td><td>{{ item.course.name }}</td><td>{{ item.status|title }}</td><td>{% if item.email_sent %}Yes{% else %}No{% endif %}</td><td>{{ item.created_at|date:"d M Y, h:i A" }}</td></tr>{% empty %}<tr><td colspan="6" style="padding:30px;text-align:center;color:#8f98a8;">No enrollments found.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

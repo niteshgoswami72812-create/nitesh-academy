@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <script>
+        (() => {
+            try {
+                const savedTheme = localStorage.getItem("niteshAcademyTheme");
+                const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                document.documentElement.dataset.theme = savedTheme || "dark";
+            } catch (error) {
+                document.documentElement.dataset.theme = "dark";
+            }
+        })();
+    </script>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Nitesh Academy - Learn modern web development with practical courses."
+    >
+
+    <title>
+        {% block title %}
+            Nitesh Academy
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/catalog.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/glassy.css' %}"
+    >
+
+    {% block extra_css %}
+    {% endblock %}
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/theme.css' %}"
+    >
+</head>
+
+<body class="page-entering">
+
+    <div class="page-transition" id="pageTransition" aria-hidden="true">
+        <div class="transition-panel transition-panel-one"></div>
+        <div class="transition-panel transition-panel-two"></div>
+        <div class="transition-panel transition-panel-three"></div>
+        <div class="transition-core">
+            <span class="transition-orbit"></span>
+            <span class="transition-logo">
+                <img src="{% static 'images/LOGO.png' %}" alt="Nitesh Academy logo">
+            </span>
+            <span class="transition-label" id="transitionLabel">Nitesh Academy</span>
+            <span class="transition-progress" aria-hidden="true"><span></span></span>
+        </div>
+    </div>
+
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <div class="background-glow background-glow-one"></div>
+    <div class="background-glow background-glow-two"></div>
+
+    {% include 'includes/header.html' %}
+
+    <main class="main-content">
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="message message-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% include 'includes/footer.html' %}
+
+    <script src="{% static 'js/index.js' %}"></script>
+
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+</html>

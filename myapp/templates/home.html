@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home | Nitesh Academy{% endblock %}
+
+{% block content %}
+<section class="hero-section section-container next-hero">
+    <div class="hero-content">
+        <span class="section-tag"><i class="fa-solid fa-sparkles"></i> India’s Practical Developer Launchpad</span>
+        <h1>Don’t just learn code. <span>Build proof that you can ship.</span></h1>
+        <p>Role-based learning paths, mentor-style checkpoints, portfolio projects and a career dashboard—designed to turn beginners into job-ready builders.</p>
+        <div class="hero-actions">
+            <a href="{% url 'courses' %}#career-lab" class="button button-primary button-large">Find My Learning Path <i class="fa-solid fa-wand-magic-sparkles"></i></a>
+            <a href="{% url 'courses' %}" class="button button-glass button-large">Explore Courses</a>
+        </div>
+        <div class="trust-strip">
+            <span><i class="fa-solid fa-circle-check"></i> Project-first</span>
+            <span><i class="fa-solid fa-circle-check"></i> Hindi + English friendly</span>
+            <span><i class="fa-solid fa-circle-check"></i> Lifetime roadmap</span>
+        </div>
+        <div class="hero-statistics">
+            <div><strong>4.9/5</strong><span>Learner experience</span></div>
+            <div><strong>{{ course_count|default:"0" }}+</strong><span>Career tracks</span></div>
+            <div><strong>100%</strong><span>Practical focus</span></div>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="command-center glass-panel">
+            <div class="command-top"><span><i class="fa-solid fa-satellite-dish"></i> Learning Command Center</span><small>LIVE</small></div>
+            <div class="skill-orbit">
+                <div class="orbit-core"><i class="fa-solid fa-code"></i><strong>YOU</strong></div>
+                <span class="skill-node node-html">HTML</span><span class="skill-node node-css">CSS</span><span class="skill-node node-js">JS</span><span class="skill-node node-django">Django</span>
+            </div>
+            <div class="mission-card"><span>Current mission</span><strong>Ship a production-ready portfolio</strong><div class="mission-progress"><i style="width:72%"></i></div><small>72% roadmap clarity</small></div>
+            <div class="mini-insights"><div><i class="fa-solid fa-bolt"></i><span><strong>12 weeks</strong> to first deploy</span></div><div><i class="fa-solid fa-trophy"></i><span><strong>6 projects</strong> for portfolio</span></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="signal-section section-container">
+    <div class="signal-track"><span>LEARN</span><i class="fa-solid fa-arrow-right"></i><span>BUILD</span><i class="fa-solid fa-arrow-right"></i><span>REVIEW</span><i class="fa-solid fa-arrow-right"></i><span>SHIP</span><i class="fa-solid fa-arrow-right"></i><span>GET HIRED</span></div>
+</section>
+
+<section class="features-section section-container">
+    <div class="section-heading"><span class="section-tag">The Academy OS</span><h2>A learning system that behaves like a real product team</h2><p>Every step creates visible proof of skill—not just completed videos.</p></div>
+    <div class="feature-grid premium-grid">
+        <article class="glass-card feature-card"><div class="card-icon"><i class="fa-solid fa-route"></i></div><span class="feature-number">01</span><h3>Adaptive Roadmaps</h3><p>Your goal, experience and available time become a clear weekly execution plan.</p></article>
+        <article class="glass-card feature-card"><div class="card-icon"><i class="fa-solid fa-code-branch"></i></div><span class="feature-number">02</span><h3>Portfolio Missions</h3><p>Build products with briefs, milestones and launch criteria inspired by real teams.</p></article>
+        <article class="glass-card feature-card"><div class="card-icon"><i class="fa-solid fa-chart-line"></i></div><span class="feature-number">03</span><h3>Skill Intelligence</h3><p>See strengths, gaps and the next best action instead of guessing what to learn.</p></article>
+    </div>
+</section>
+
+{% if featured_courses %}
+<section class="featured-section section-container">
+    <div class="section-heading"><span class="section-tag">Popular Missions</span><h2>Start with a path that ends in something you can show</h2></div>
+    <div class="featured-course-grid">
+        {% for course in featured_courses %}
+        <article class="glass-card featured-course-card">
+            <div class="featured-course-top"><span>{{ course.category.name }}</span><i class="fa-solid fa-arrow-trend-up"></i></div>
+            <h3>{{ course.name }}</h3><p>{{ course.duration }} · Practical track</p>
+            <div class="featured-skills">{% for topic in course.topics.all|slice:":3" %}<span>{{ topic.name }}</span>{% empty %}<span>Project-based</span><span>Certificate</span>{% endfor %}</div>
+            <div class="featured-course-bottom"><strong>₹{{ course.price }}</strong><div style="display:flex;gap:8px;align-items:center;"><a href="{% url 'start_enrollment' course.id %}" class="button button-primary" style="min-height:38px;padding:8px 12px;">Enroll</a><a href="{% url 'course_detail' course.id %}" aria-label="View {{ course.name }}"><i class="fa-solid fa-arrow-right"></i></a></div></div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="cta-section section-container"><div class="glass-panel cta-panel"><div><span class="section-tag">Your next chapter</span><h2>One decision can change your next 12 months.</h2><p>Discover the best starting path in under 30 seconds.</p></div><a href="{% url 'courses' %}#career-lab" class="button button-primary button-large">Launch Career DNA <i class="fa-solid fa-dna"></i></a></div></section>
+{% endblock %}

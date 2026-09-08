@@ -1,0 +1,316 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Manage Courses | Nitesh Academy
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+.page-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-header h1 {
+    font-size:27px;
+}
+
+.page-header p {
+    margin-top:7px;
+    color:#818b9a;
+    font-size:13px;
+}
+
+.primary-btn {
+    padding:12px 18px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#ff474f,#bd2027);
+    color:white;
+    font-size:13px;
+    font-weight:700;
+}
+
+.panel {
+    background:rgba(17,22,31,.8);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.toolbar {
+    padding:18px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.search-form {
+    display:flex;
+    gap:10px;
+}
+
+.search-form input {
+    max-width:400px;
+    width:100%;
+    padding:12px 14px;
+    border-radius:9px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.04);
+    outline:none;
+    color:white;
+}
+
+.search-form button {
+    padding:10px 16px;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.table-wrap {
+    overflow:auto;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td {
+    padding:15px 18px;
+    text-align:left;
+    border-bottom:1px solid rgba(255,255,255,.055);
+    font-size:12px;
+}
+
+th {
+    color:#8d96a4;
+}
+
+td {
+    color:#d1d6de;
+}
+
+.actions {
+    display:flex;
+    gap:7px;
+}
+
+.action-btn {
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+}
+
+.edit {
+    color:#ff777c;
+    background:rgba(59,130,246,.12);
+}
+
+.delete {
+    color:#fb7185;
+    background:rgba(239,68,68,.12);
+}
+
+.category {
+    padding:5px 9px;
+    border-radius:30px;
+    background:rgba(255,255,255,.06);
+}
+
+.price {
+    color:#4ade80;
+    font-weight:700;
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h1>Manage Courses</h1>
+
+        <p>
+            Add, update and delete academy courses.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'dashboard_course_add' %}"
+        class="primary-btn"
+    >
+        <i class="fa-solid fa-plus"></i>
+        Add Course
+    </a>
+
+</div>
+
+
+{% if messages %}
+
+    {% for message in messages %}
+
+        <div style="
+            margin-bottom:15px;
+            padding:12px 15px;
+            border-radius:9px;
+            background:rgba(255,255,255,.05);
+        ">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+
+<div class="panel">
+
+    <div class="toolbar">
+
+        <form
+            method="GET"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search courses..."
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>#</th>
+                    <th>Course</th>
+                    <th>Category</th>
+                    <th>Duration</th>
+                    <th>Price</th>
+                    <th>Topics</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for course in courses %}
+
+                <tr>
+
+                    <td>
+                        {{ forloop.counter }}
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ course.name }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        <span class="category">
+                            {{ course.category.name }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ course.duration }}
+                    </td>
+
+                    <td class="price">
+                        ₹{{ course.price }}
+                    </td>
+
+                    <td>
+                        {{ course.topics.count }}
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <a
+                                href="{% url 'dashboard_course_edit' course.id %}"
+                                class="action-btn edit"
+                            >
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+
+                            <form
+                                method="POST"
+                                action="{% url 'dashboard_course_delete' course.id %}"
+                                onsubmit="return confirm('Delete {{ course.name|escapejs }}?');"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="action-btn delete"
+                                >
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        style="text-align:center;padding:40px;"
+                    >
+                        No courses found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

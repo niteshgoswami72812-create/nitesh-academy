@@ -1,0 +1,83 @@
+{% load static %}
+
+<header class="site-header">
+    <div class="header-container">
+
+        <a href="{% url 'home' %}" class="brand">
+            <img
+                src="{% static 'images/LOGO.png' %}"
+                alt="Nitesh Academy Logo"
+                class="brand-logo"
+            >
+
+            <div class="brand-text">
+                <strong>Nitesh Academy</strong>
+                <span>Learn. Build. Grow.</span>
+            </div>
+        </a>
+
+        <button
+            type="button"
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="Open navigation"
+            aria-expanded="false"
+        >
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav class="main-navigation" id="mainNavigation">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'courses' %}">Courses</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            <a href="{% url 'help' %}">Help</a>
+
+        </nav>
+
+        <div class="header-actions">
+
+            <button
+                type="button"
+                class="nav-theme-toggle"
+                id="themeToggle"
+                aria-label="Switch to light theme"
+                aria-pressed="false"
+                title="Light theme"
+            >
+                <i class="fa-solid fa-sun theme-icon-sun"></i>
+                <i class="fa-solid fa-moon theme-icon-moon"></i>
+            </button>
+
+            <a href="{% url 'checkout' %}" class="cart-link">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Cart</span>
+                <span class="cart-count" id="headerCartCount">0</span>
+            </a>
+
+            {% if request.session.registration_user_id %}
+
+                <span class="user-welcome">
+                    Hi, {{ request.session.registration_fullname|default:request.session.registration_username }}
+                </span>
+
+                <a href="{% url 'logout' %}" class="button button-outline">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}" class="button button-outline">
+                    Login
+                </a>
+
+                <a href="{% url 'registration' %}" class="button button-primary">
+                    Sign Up
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+</header>

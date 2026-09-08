@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} Courses | Nitesh Academy{% endblock %}
+
+{% block content %}
+
+<section class="page-hero section-container compact-page-hero">
+    <h1>{{ category.name }} Courses</h1>
+    <p>Search and Sort Courses</p>
+</section>
+
+<section class="section-container catalog-section">
+
+    <!-- Search + Sorting -->
+    <form method="GET" style="display:flex;gap:15px;flex-wrap:wrap;margin-bottom:30px;">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ search }}"
+            placeholder="Search Course..."
+            style="padding:10px;width:250px;border-radius:8px;border:1px solid #ccc;">
+
+        <select
+            name="sort"
+            style="padding:10px;border-radius:8px;">
+
+            <option value="">Sort By</option>
+
+            <option value="az"
+            {% if sort == "az" %}selected{% endif %}>
+                A - Z
+            </option>
+
+            <option value="za"
+            {% if sort == "za" %}selected{% endif %}>
+                Z - A
+            </option>
+
+            <option value="price_low"
+            {% if sort == "price_low" %}selected{% endif %}>
+                Price Low → High
+            </option>
+
+            <option value="price_high"
+            {% if sort == "price_high" %}selected{% endif %}>
+                Price High → Low
+            </option>
+
+        </select>
+
+        <button class="button button-primary" type="submit">
+            Search
+        </button>
+
+    </form>
+
+    {% if courses %}
+
+    <div class="catalog-course-grid">
+
+        {% for course in courses %}
+
+        <a class="catalog-course-card glass-panel"
+           href="{% url 'course_detail' course.id %}">
+
+            <div class="catalog-course-top">
+
+                <span class="catalog-course-number">
+                    {{ forloop.counter|stringformat:'02d' }}
+                </span>
+
+                <span class="catalog-course-price">
+                    ₹{{ course.price }}
+                </span>
+
+            </div>
+
+            <h3>{{ course.name }}</h3>
+
+            <p>
+                {{ course.description|default:"A structured, practical course designed to take you from concepts to real-world implementation." }}
+            </p>
+
+            <div class="catalog-course-meta">
+
+                <span>
+                    <i class="fa-regular fa-clock"></i>
+                    {{ course.duration }}
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-list-check"></i>
+                    {{ course.topics.count }} Topics
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-sliders"></i>
+                    {{ course.options.count }} Options
+                </span>
+
+            </div>
+
+            <div class="catalog-course-action">
+
+                <span>Open Course</span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </div>
+
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state glass-panel">
+
+        <i class="fa-solid fa-book-open"></i>
+
+        <h2>No Course Found</h2>
+
+        <p>
+            No course matched your search.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

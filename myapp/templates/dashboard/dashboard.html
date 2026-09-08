@@ -1,0 +1,1113 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+
+{% block title %}
+Dashboard | Nitesh Academy
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .welcome-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 25px;
+    }
+
+    .welcome-text small {
+        color: #b2bac7;
+        font-size: 15px;
+    }
+
+    .welcome-text h1 {
+        margin-top: 7px;
+
+        font-size: 32px;
+        font-weight: 800;
+    }
+
+    .welcome-text h1 span {
+        color: #ff434b;
+    }
+
+    .welcome-text p {
+        margin-top: 8px;
+        color: #8892a2;
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       STAT CARDS
+    ========================= */
+
+    .stats-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 18px;
+
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+
+        min-height: 145px;
+
+        padding: 22px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 18px;
+
+        border-radius: 17px;
+
+        border:
+            1px solid rgba(255,255,255,.08);
+
+        background:
+            rgba(255,255,255,.035);
+
+        backdrop-filter:
+            blur(15px);
+
+        position: relative;
+        overflow: hidden;
+
+        transition: .3s;
+    }
+
+    .stat-card:hover {
+        transform:
+            translateY(-4px);
+
+        border-color:
+            rgba(255,255,255,.15);
+    }
+
+    .stat-card::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 120px;
+        height: 120px;
+
+        border-radius: 50%;
+
+        top: -55px;
+        right: -35px;
+
+        filter: blur(10px);
+
+        opacity: .25;
+    }
+
+    .student-card {
+        border-color:
+            rgba(255,63,70,.3);
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(255,63,70,.13),
+                rgba(255,255,255,.025)
+            );
+    }
+
+    .student-card::before {
+        background: #ff3f46;
+    }
+
+    .course-card {
+
+        border-color:
+            rgba(59,130,246,.30);
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(59,130,246,.14),
+                rgba(255,255,255,.025)
+            );
+    }
+
+    .course-card::before {
+        background: #ff555c;
+    }
+
+    .category-card {
+
+        border-color:
+            rgba(245,158,11,.30);
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(245,158,11,.14),
+                rgba(255,255,255,.025)
+            );
+    }
+
+    .category-card::before {
+        background: #f59e0b;
+    }
+
+    .stat-icon {
+
+        width: 60px;
+        height: 60px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 16px;
+
+        flex-shrink: 0;
+
+        font-size: 22px;
+    }
+
+    .student-card .stat-icon {
+
+        color: #ff777c;
+
+        background:
+            rgba(255,63,70,.16);
+
+        border:
+            1px solid rgba(255,63,70,.25);
+    }
+
+    .course-card .stat-icon {
+
+        color: #ff777c;
+
+        background:
+            rgba(59,130,246,.16);
+
+        border:
+            1px solid rgba(59,130,246,.25);
+    }
+
+    .category-card .stat-icon {
+
+        color: #fbbf24;
+
+        background:
+            rgba(245,158,11,.16);
+
+        border:
+            1px solid rgba(245,158,11,.25);
+    }
+
+    .stat-info span {
+
+        color: #a9b2c0;
+
+        font-size: 13px;
+    }
+
+    .stat-info h2 {
+
+        margin-top: 7px;
+
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .stat-info small {
+
+        display: block;
+
+        margin-top: 6px;
+
+        color: #6f7887;
+
+        font-size: 11px;
+    }
+
+
+    /* =========================
+       DASHBOARD GRID
+    ========================= */
+
+    .dashboard-grid {
+
+        display: grid;
+
+        grid-template-columns:
+            1.6fr 1fr;
+
+        gap: 18px;
+
+        margin-bottom: 20px;
+    }
+
+    .panel {
+
+        background:
+            rgba(15,20,29,.70);
+
+        border:
+            1px solid rgba(255,255,255,.08);
+
+        border-radius:
+            17px;
+
+        overflow: hidden;
+
+        backdrop-filter:
+            blur(16px);
+    }
+
+    .panel-header {
+
+        padding: 20px 20px 15px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .panel-title {
+
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+    }
+
+    .panel-title-icon {
+
+        width: 36px;
+        height: 36px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 10px;
+
+        background:
+            rgba(255,63,70,.12);
+
+        color: #ff4c53;
+    }
+
+    .panel-title h3 {
+
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .panel-title p {
+
+        margin-top: 3px;
+
+        color: #767f8e;
+        font-size: 11px;
+    }
+
+    .panel-btn {
+
+        padding: 8px 12px;
+
+        border:
+            1px solid rgba(255,255,255,.08);
+
+        border-radius: 8px;
+
+        color: #b3bbc7;
+
+        background:
+            rgba(255,255,255,.04);
+
+        font-size: 11px;
+    }
+
+
+    /* =========================
+       STUDENTS
+    ========================= */
+
+    .student-list {
+        padding: 0 18px 18px;
+    }
+
+    .student-row {
+
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        padding: 13px 3px;
+
+        border-bottom:
+            1px solid rgba(255,255,255,.055);
+    }
+
+    .student-row:last-child {
+        border-bottom: none;
+    }
+
+    .student-avatar {
+
+        width: 39px;
+        height: 39px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        border-radius: 50%;
+
+        background:
+            linear-gradient(
+                135deg,
+                #5b6473,
+                #242932
+            );
+
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .student-details {
+        flex: 1;
+    }
+
+    .student-details strong {
+
+        display: block;
+
+        font-size: 12px;
+    }
+
+    .student-details span {
+
+        display: block;
+
+        margin-top: 4px;
+
+        color: #737d8c;
+
+        font-size: 10px;
+    }
+
+    .student-status {
+
+        padding: 5px 9px;
+
+        border-radius: 50px;
+
+        color: #4ade80;
+
+        background:
+            rgba(34,197,94,.12);
+
+        font-size: 10px;
+    }
+
+
+    /* =========================
+       QUICK ACTIONS
+    ========================= */
+
+    .quick-actions {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 12px;
+
+        padding: 0 18px 20px;
+    }
+
+    .action-button {
+
+        min-height: 86px;
+
+        padding: 14px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        border-radius: 12px;
+
+        border:
+            1px solid rgba(255,255,255,.08);
+
+        background:
+            rgba(255,255,255,.035);
+
+        transition: .25s;
+    }
+
+    .action-button:hover {
+
+        transform:
+            translateY(-3px);
+
+        background:
+            rgba(255,255,255,.06);
+    }
+
+    .action-button i {
+
+        font-size: 20px;
+
+        color: #ff4b52;
+    }
+
+    .action-button span {
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        color: #dbe0e7;
+    }
+
+
+    /* =========================
+       COURSES TABLE
+    ========================= */
+
+    .table-container {
+
+        overflow-x: auto;
+
+        padding: 0 18px 18px;
+    }
+
+    .courses-table {
+
+        width: 100%;
+
+        border-collapse: collapse;
+
+        font-size: 12px;
+    }
+
+    .courses-table th {
+
+        padding: 12px;
+
+        text-align: left;
+
+        color: #8f98a7;
+
+        font-size: 11px;
+
+        border-bottom:
+            1px solid rgba(255,255,255,.08);
+    }
+
+    .courses-table td {
+
+        padding: 13px 12px;
+
+        color: #ccd2dc;
+
+        border-bottom:
+            1px solid rgba(255,255,255,.05);
+    }
+
+    .course-badge {
+
+        padding: 5px 9px;
+
+        border-radius: 50px;
+
+        background:
+            rgba(34,197,94,.12);
+
+        color: #4ade80;
+
+        font-size: 10px;
+    }
+
+    .edit-button {
+
+        width: 30px;
+        height: 30px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 7px;
+
+        background:
+            rgba(59,130,246,.15);
+
+        color: #ff777c;
+
+        margin-right: 5px;
+    }
+
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    .empty-data {
+
+        padding: 30px;
+
+        text-align: center;
+
+        color: #697383;
+
+        font-size: 12px;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media(max-width: 1000px) {
+
+        .stats-grid {
+            grid-template-columns:
+                repeat(2,1fr);
+        }
+
+        .dashboard-grid {
+            grid-template-columns:
+                1fr;
+        }
+
+    }
+
+    @media(max-width: 650px) {
+
+        .stats-grid {
+            grid-template-columns:
+                1fr;
+        }
+
+        .welcome-section {
+            align-items:
+                flex-start;
+        }
+
+        .welcome-text h1 {
+            font-size: 25px;
+        }
+
+        .quick-actions {
+            grid-template-columns:
+                1fr;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- =========================================
+     WELCOME
+========================================= -->
+
+<div class="welcome-section">
+
+    <div class="welcome-text">
+
+        <small>
+            Welcome Back 👋
+        </small>
+
+        <h1>
+            Nitesh
+            <span>Academy</span>
+        </h1>
+
+        <p>
+            Manage your courses, students and academy
+            from your custom admin dashboard.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     STATISTICS
+========================================= -->
+
+<div class="stats-grid">
+
+
+    <div class="stat-card student-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-users"></i>
+
+        </div>
+
+        <div class="stat-info">
+
+            <span>
+                Total Students
+            </span>
+
+            <h2>
+                {{ total_students }}
+            </h2>
+
+            <small>
+                Registered students
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card course-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-book-open"></i>
+
+        </div>
+
+        <div class="stat-info">
+
+            <span>
+                Total Courses
+            </span>
+
+            <h2>
+                {{ total_courses }}
+            </h2>
+
+            <small>
+                Available courses
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="stat-card category-card">
+
+        <div class="stat-icon">
+
+            <i class="fa-solid fa-border-all"></i>
+
+        </div>
+
+        <div class="stat-info">
+
+            <span>
+                Total Categories
+            </span>
+
+            <h2>
+                {{ total_categories }}
+            </h2>
+
+            <small>
+                Course categories
+            </small>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     STUDENTS + QUICK ACTIONS
+========================================= -->
+
+<div class="dashboard-grid">
+
+
+    <!-- RECENT STUDENTS -->
+
+    <div
+        class="panel"
+        id="students"
+    >
+
+        <div class="panel-header">
+
+            <div class="panel-title">
+
+                <div class="panel-title-icon">
+
+                    <i class="fa-solid fa-user-group"></i>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Recent Students
+                    </h3>
+
+                    <p>
+                        Latest registered students
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="student-list">
+
+            {% for student in recent_students %}
+
+                <div class="student-row">
+
+                    <div class="student-avatar">
+
+                        {{ student.fullname|first|upper }}
+
+                    </div>
+
+
+                    <div class="student-details">
+
+                        <strong>
+                            {{ student.fullname }}
+                        </strong>
+
+                        <span>
+                            {{ student.email }}
+                        </span>
+
+                    </div>
+
+
+                    <span class="student-status">
+                        Active
+                    </span>
+
+                </div>
+
+            {% empty %}
+
+                <div class="empty-data">
+
+                    No students registered yet.
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <div class="panel-title">
+
+                <div class="panel-title-icon">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Quick Actions
+                    </h3>
+
+                    <p>
+                        Manage academy quickly
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+
+            <a
+                href="#courses"
+                class="action-button"
+            >
+
+                <i class="fa-solid fa-circle-plus"></i>
+
+                <span>
+                    Manage Courses
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="#"
+                class="action-button"
+            >
+
+                <i class="fa-solid fa-folder-plus"></i>
+
+                <span>
+                    Categories
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="#students"
+                class="action-button"
+            >
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    View Students
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="{% url 'home' %}"
+                target="_blank"
+                class="action-button"
+            >
+
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                <span>
+                    View Website
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     RECENT COURSES
+========================================= -->
+
+<div
+    class="panel"
+    id="courses"
+>
+
+    <div class="panel-header">
+
+        <div class="panel-title">
+
+            <div class="panel-title-icon">
+
+                <i class="fa-solid fa-book-open"></i>
+
+            </div>
+
+            <div>
+
+                <h3>
+                    Recent Courses
+                </h3>
+
+                <p>
+                    Recently added courses
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'courses' %}"
+            target="_blank"
+            class="panel-btn"
+        >
+            View Website
+        </a>
+
+    </div>
+
+
+
+    <div class="table-container">
+
+        <table class="courses-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        #
+                    </th>
+
+                    <th>
+                        Course Name
+                    </th>
+
+                    <th>
+                        Category
+                    </th>
+
+                    <th>
+                        Price
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for course in recent_courses %}
+
+                    <tr>
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+                        <td>
+                            {{ course.name }}
+                        </td>
+
+                        <td>
+
+                            {% if course.category %}
+
+                                {{ course.category.name }}
+
+                            {% else %}
+
+                                No Category
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            ₹{{ course.price }}
+                        </td>
+
+                        <td>
+
+                            <span class="course-badge">
+                                Published
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="{% url 'course_detail' course.id %}"
+                                target="_blank"
+                                class="edit-button"
+                                title="View Course"
+                            >
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty-data"
+                        >
+
+                            No courses available.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

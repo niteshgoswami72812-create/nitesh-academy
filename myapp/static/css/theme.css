@@ -1,0 +1,473 @@
+:root,
+html[data-theme="dark"] {
+    --background: #070b12;
+    --background-secondary: #0c1019;
+    --surface: rgba(255,255,255,.055);
+    --surface-strong: rgba(255,255,255,.09);
+    --surface-hover: rgba(255,255,255,.13);
+    --border: rgba(255,255,255,.10);
+    --border-strong: rgba(255,63,70,.32);
+    --primary: #ff3f46;
+    --primary-light: #ff777c;
+    --secondary: #b3171d;
+    --accent: #ff5a61;
+    --text-primary: #f8fafc;
+    --text-secondary: #b2bac7;
+    --text-muted: #7e8796;
+    --heading-color: #f8fafc;
+    --body-color: #b2bac7;
+    --muted-color: #7e8796;
+    --link-color: #f8fafc;
+    --glass-bg: rgba(20,25,36,.68);
+    --glass-bg-strong: rgba(24,29,42,.84);
+    --glass-bg-soft: rgba(255,255,255,.045);
+    --glass-stroke: rgba(255,255,255,.10);
+    --glass-stroke-strong: rgba(255,63,70,.30);
+    --glass-highlight: rgba(255,255,255,.08);
+    --glass-shadow: 0 24px 70px rgba(0,0,0,.34);
+    --glass-shadow-soft: 0 12px 34px rgba(0,0,0,.24);
+    color-scheme: dark;
+}
+
+html[data-theme="light"] {
+    --background: #f6f7f9;
+    --background-secondary: #eceff3;
+    --surface: rgba(255,255,255,.78);
+    --surface-strong: rgba(255,255,255,.94);
+    --surface-hover: #ffffff;
+    --border: rgba(15,23,42,.10);
+    --border-strong: rgba(255,63,70,.28);
+    --primary: #e72f37;
+    --primary-light: #ff555c;
+    --secondary: #a7171d;
+    --accent: #ed3c44;
+    --text-primary: #151922;
+    --text-secondary: #4f5968;
+    --text-muted: #7d8796;
+    --heading-color: #151922;
+    --body-color: #4f5968;
+    --muted-color: #7d8796;
+    --link-color: #151922;
+    --glass-bg: rgba(255,255,255,.76);
+    --glass-bg-strong: rgba(255,255,255,.94);
+    --glass-bg-soft: rgba(255,255,255,.58);
+    --glass-stroke: rgba(15,23,42,.09);
+    --glass-stroke-strong: rgba(231,47,55,.25);
+    --glass-highlight: rgba(255,255,255,.86);
+    --glass-shadow: 0 24px 70px rgba(15,23,42,.10);
+    --glass-shadow-soft: 0 12px 34px rgba(15,23,42,.08);
+    color-scheme: light;
+}
+
+html,
+body {
+    background-color: var(--background) !important;
+    color: var(--text-primary) !important;
+}
+
+body {
+    background:
+        radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 32%),
+        radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--secondary) 9%, transparent), transparent 28%),
+        linear-gradient(145deg, var(--background), var(--background-secondary)) !important;
+}
+
+html[data-theme="light"] body::before {
+    opacity: .16 !important;
+    background-image:
+        linear-gradient(rgba(15,23,42,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,23,42,.025) 1px, transparent 1px) !important;
+}
+
+html[data-theme="dark"] body::before {
+    opacity: .28 !important;
+    background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px) !important;
+}
+
+.site-header {
+    background: color-mix(in srgb, var(--background) 76%, transparent) !important;
+    border-color: var(--border) !important;
+    box-shadow: var(--glass-shadow-soft) !important;
+}
+
+.main-navigation {
+    background: var(--glass-bg-soft) !important;
+    border-color: var(--border) !important;
+}
+
+.main-navigation a {
+    color: var(--text-secondary) !important;
+}
+
+.main-navigation a:hover,
+.main-navigation a.active {
+    color: var(--text-primary) !important;
+    background: var(--surface-strong) !important;
+}
+
+.brand-text strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong {
+    color: var(--text-primary) !important;
+}
+
+.brand-text span,
+p,
+li,
+label,
+small,
+.user-welcome {
+    color: var(--text-secondary) !important;
+}
+
+.section-tag {
+    color: var(--primary-light) !important;
+    background: color-mix(in srgb, var(--primary) 11%, transparent) !important;
+    border-color: color-mix(in srgb, var(--primary) 28%, transparent) !important;
+}
+
+.glass-panel,
+.glass-card,
+.category-card,
+.catalog-course-card,
+.course-main-card,
+.course-buy-card,
+.authentication-card,
+.contact-form-card,
+.checkout-items,
+.checkout-summary,
+.help-card,
+.payment-card,
+.success-card,
+.feature-card,
+.statistic-card,
+.featured-course-card {
+    color: var(--text-primary) !important;
+    background:
+        linear-gradient(145deg, var(--glass-highlight), transparent 35%),
+        linear-gradient(145deg, var(--glass-bg-strong), var(--glass-bg)) !important;
+    border-color: var(--glass-stroke) !important;
+    box-shadow: var(--glass-shadow) !important;
+}
+
+.glass-card:hover,
+.category-card:hover,
+.catalog-course-card:hover,
+.feature-card:hover,
+.featured-course-card:hover {
+    border-color: var(--glass-stroke-strong) !important;
+}
+
+.button-primary,
+.cart-count {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #ff4a50, #d82d35 48%, #9f171e) !important;
+    border-color: rgba(255,255,255,.16) !important;
+}
+
+.button-outline,
+.button-glass,
+.cart-link,
+.theme-toggle,
+.mobile-menu-button {
+    color: var(--text-primary) !important;
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+.button-outline:hover,
+.button-glass:hover,
+.cart-link:hover,
+.theme-toggle:hover,
+.mobile-menu-button:hover {
+    background: var(--surface-strong) !important;
+    border-color: var(--border-strong) !important;
+}
+
+input,
+textarea,
+select {
+    color: var(--text-primary) !important;
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-muted) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 12%, transparent) !important;
+}
+
+option {
+    color: var(--text-primary);
+    background: var(--background-secondary);
+}
+
+.site-footer,
+html[data-theme="light"] .site-footer,
+html[data-theme="dark"] .site-footer {
+    color: var(--text-primary) !important;
+    background: var(--background-secondary) !important;
+    border-top-color: var(--border) !important;
+    box-shadow: none !important;
+}
+
+.site-footer .footer-brand h2,
+.site-footer .footer-column h3,
+.site-footer strong {
+    color: var(--text-primary) !important;
+}
+
+.site-footer .footer-column p,
+.site-footer .footer-column a,
+.site-footer .footer-bottom p {
+    color: var(--text-secondary) !important;
+}
+
+.site-footer .footer-column a:hover {
+    color: var(--primary) !important;
+}
+
+.site-footer .social-links a {
+    color: var(--text-secondary) !important;
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+.site-footer .social-links a:hover {
+    color: #ffffff !important;
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+.message,
+.notification,
+.compare-tray,
+.course-option,
+.cart-item,
+.summary-row,
+.info-box {
+    border-color: var(--border) !important;
+}
+
+html[data-theme="light"] .background-glow {
+    opacity: .11 !important;
+}
+
+html[data-theme="light"] .site-header,
+html[data-theme="light"] .glass-panel,
+html[data-theme="light"] .glass-card,
+html[data-theme="light"] .category-card,
+html[data-theme="light"] .catalog-course-card,
+html[data-theme="light"] .course-main-card,
+html[data-theme="light"] .course-buy-card,
+html[data-theme="light"] .authentication-card,
+html[data-theme="light"] .contact-form-card,
+html[data-theme="light"] .checkout-items,
+html[data-theme="light"] .checkout-summary,
+html[data-theme="light"] .help-card,
+html[data-theme="light"] .payment-card,
+html[data-theme="light"] .success-card {
+    backdrop-filter: blur(20px) saturate(115%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(115%) !important;
+}
+
+.theme-toggle-track {
+    border-color: var(--border) !important;
+    background: var(--surface-strong) !important;
+}
+
+.theme-toggle-thumb {
+    background: var(--primary) !important;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--primary) 35%, transparent) !important;
+}
+
+.theme-sun,
+.theme-moon {
+    color: var(--text-muted) !important;
+}
+
+html[data-theme="light"] .theme-sun,
+html[data-theme="dark"] .theme-moon {
+    color: var(--text-primary) !important;
+}
+
+@media (max-width: 900px) {
+    .main-navigation {
+        background: var(--background-secondary) !important;
+        border-color: var(--border) !important;
+    }
+}
+
+
+.nav-theme-toggle {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 46px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 14px !important;
+    background: var(--surface) !important;
+    color: var(--text-primary) !important;
+    cursor: pointer !important;
+    transition: transform .2s ease, border-color .2s ease, background .2s ease !important;
+}
+
+.nav-theme-toggle:hover {
+    transform: translateY(-2px) !important;
+    border-color: rgba(255, 63, 70, .55) !important;
+    background: rgba(255, 63, 70, .10) !important;
+}
+
+.nav-theme-toggle i {
+    font-size: 18px !important;
+    line-height: 1 !important;
+}
+
+.nav-theme-toggle .theme-icon-sun {
+    color: #f59e0b !important;
+}
+
+.nav-theme-toggle .theme-icon-moon {
+    color: #ff4a50 !important;
+}
+
+html[data-theme="dark"] .nav-theme-toggle .theme-icon-sun {
+    display: none !important;
+}
+
+html[data-theme="light"] .nav-theme-toggle .theme-icon-moon {
+    display: none !important;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 1000px) {
+    .nav-theme-toggle {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        flex-basis: 42px !important;
+    }
+}
+
+
+html[data-theme="light"] body,
+html[data-theme="light"] .main-content {
+    background-color: #f6f7f9 !important;
+    color: #151922 !important;
+}
+
+html[data-theme="light"] .site-header {
+    background: rgba(255, 255, 255, .88) !important;
+    border-color: rgba(15, 23, 42, .10) !important;
+}
+
+html[data-theme="light"] .main-navigation,
+html[data-theme="light"] .cart-link,
+html[data-theme="light"] .button-outline,
+html[data-theme="light"] .nav-theme-toggle,
+html[data-theme="light"] .mobile-menu-button {
+    background: rgba(255, 255, 255, .82) !important;
+    color: #151922 !important;
+    border-color: rgba(15, 23, 42, .10) !important;
+}
+
+html[data-theme="light"] .glass-panel,
+html[data-theme="light"] .glass-card,
+html[data-theme="light"] .feature-card,
+html[data-theme="light"] .featured-course-card,
+html[data-theme="light"] .category-card,
+html[data-theme="light"] .catalog-course-card,
+html[data-theme="light"] .course-main-card,
+html[data-theme="light"] .course-buy-card,
+html[data-theme="light"] .authentication-card,
+html[data-theme="light"] .contact-form-card,
+html[data-theme="light"] .checkout-items,
+html[data-theme="light"] .checkout-summary,
+html[data-theme="light"] .help-card,
+html[data-theme="light"] .payment-card,
+html[data-theme="light"] .success-card,
+html[data-theme="light"] .career-quiz,
+html[data-theme="light"] .mission-card,
+html[data-theme="light"] .command-center,
+html[data-theme="light"] .compare-tray {
+    background: rgba(255, 255, 255, .90) !important;
+    color: #151922 !important;
+    border-color: rgba(15, 23, 42, .10) !important;
+    box-shadow: 0 18px 55px rgba(15, 23, 42, .09) !important;
+}
+
+html[data-theme="light"] .featured-skills span,
+html[data-theme="light"] .quiz-options button,
+html[data-theme="light"] .mini-insights > div,
+html[data-theme="light"] .skill-node,
+html[data-theme="light"] input,
+html[data-theme="light"] textarea,
+html[data-theme="light"] select {
+    background: #ffffff !important;
+    color: #151922 !important;
+    border-color: rgba(15, 23, 42, .12) !important;
+}
+
+html[data-theme="light"] .next-hero::before,
+html[data-theme="light"] .command-center::before {
+    background: radial-gradient(circle, rgba(231, 47, 55, .10), transparent 66%) !important;
+}
+
+html[data-theme="light"] .quiz-progress {
+    background: rgba(15, 23, 42, .08) !important;
+}
+
+html[data-theme="light"] .quiz-options button:hover {
+    background: rgba(231, 47, 55, .08) !important;
+}
+
+html[data-theme="light"] .brand-text strong,
+html[data-theme="light"] .main-navigation a,
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] h5,
+html[data-theme="light"] h6,
+html[data-theme="light"] strong {
+    color: #151922 !important;
+}
+
+html[data-theme="light"] p,
+html[data-theme="light"] li,
+html[data-theme="light"] label,
+html[data-theme="light"] small,
+html[data-theme="light"] .brand-text span,
+html[data-theme="light"] .user-welcome {
+    color: #4f5968 !important;
+}
+
+html[data-theme="light"] .site-footer {
+    background: #eceff3 !important;
+    color: #151922 !important;
+}

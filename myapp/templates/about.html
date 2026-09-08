@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    About Us | Nitesh Academy
+{% endblock %}
+
+{% block content %}
+   
+<section class="about-section section-container">  
+
+    <div class="about-image glass-panel">
+        <img
+            src="{% static 'images/LOGO.png' %}"
+            alt="Nitesh Academy"  
+        >
+    </div>
+  
+    <div class="about-content">
+
+        <span class="section-tag">
+            <i class="fa-solid fa-building"></i> 
+            About Us
+        </span>
+
+        <h1>Welcome to Nitesh Academy</h1>
+ 
+        <p>
+            Nitesh Academy is a modern learning platform where students
+            can learn Web Development, Programming, React and Django
+            through practical projects and real-world training.
+        </p>
+
+        <p>
+            Our mission is to provide industry-level skills and help
+            students become confident developers with strong practical
+            knowledge.
+        </p>
+
+        <div class="about-statistics">
+
+            <div class="glass-card statistic-card">
+                <i class="fa-solid fa-user-graduate"></i>
+                <strong>500+</strong>
+                <span>Students</span>
+            </div>
+
+            <div class="glass-card statistic-card">
+                <i class="fa-solid fa-laptop-code"></i>
+                <strong>100+</strong>
+                <span>Projects</span>
+            </div>
+
+            <div class="glass-card statistic-card">
+                <i class="fa-solid fa-award"></i>
+                <strong>50+</strong>
+                <span>Courses</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

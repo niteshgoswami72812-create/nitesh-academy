@@ -1,0 +1,22 @@
+Nitesh Academy Enrollment Setup
+
+1. Install packages:
+   py -m pip install -r requirements.txt
+
+2. Apply database migrations:
+   py manage.py migrate
+
+3. Start server:
+   py manage.py runserver
+
+Enrollment flow:
+Enroll Now -> Signup -> Login -> Student Details -> Register Enrollment -> Success page/email.
+
+MySQL setup (optional):
+Create a MySQL database named nitesh_academy, then put DB_ENGINE=mysql and your DB_NAME, DB_USER, DB_PASSWORD, DB_HOST and DB_PORT in .env. SQLite remains the default so the project runs immediately.
+
+Email setup:
+Copy the EMAIL_* values from .env.example into .env and use your SMTP credentials. Gmail requires an App Password when 2-step verification is enabled. If SMTP is not configured, the project still saves enrollment successfully; email delivery is skipped/fails safely.
+
+Privacy:
+The form intentionally stores only the last 4 digits of Aadhaar, never the full Aadhaar number. Political affiliation/background is intentionally not collected because it is sensitive personal information and is not required for course enrollment.

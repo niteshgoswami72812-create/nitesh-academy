@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<section class="authentication-section">
+
+    <div class="authentication-card">
+
+        <h2>Login</h2>
+
+        {% if messages %}
+            <div class="form-messages">
+                {% for message in messages %}
+                    <p class="form-message {{ message.tags }}">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="next"
+                value="{{ next|default:'' }}"
+            >
+
+            <div class="form-group">
+                <label for="username">Username</label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value="{{ request.POST.username|default:'' }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                >
+            </div>
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <p>
+            New user?
+
+            <a href="{% url 'registration' %}?next={{ next|urlencode }}">
+                Create Account
+            </a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

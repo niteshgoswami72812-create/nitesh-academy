@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Help Center | Nitesh Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="page-hero section-container">
+
+    <span class="section-tag">
+        <i class="fa-regular fa-circle-question"></i>
+        Help Center
+    </span>
+
+    <h1>How can we help you?</h1>
+
+    <p>
+        Search for support information or select a help category.
+    </p>
+
+    <div class="help-search glass-panel">
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+            type="search"
+            id="helpSearchInput"
+            placeholder="Search your problem..."
+        >
+    </div>
+
+</section>
+
+<section class="help-section section-container">
+
+    <div class="help-card-grid" id="helpCardGrid">
+
+        <article
+            class="glass-card help-card"
+            data-help-keywords="account login signup password profile username"
+        >
+            <div class="card-icon">
+                <i class="fa-regular fa-user"></i>
+            </div>
+
+            <h2>Account Help</h2>
+
+            <p>
+                Get help with login, signup, password reset and account settings.
+            </p>
+        </article>
+
+        <article
+            class="glass-card help-card"
+            data-help-keywords="payment refund billing checkout order price"
+        >
+            <div class="card-icon">
+                <i class="fa-regular fa-credit-card"></i>
+            </div>
+
+            <h2>Payment Help</h2>
+
+            <p>
+                Find information about payment issues, refunds and billing.
+            </p>
+        </article>
+
+        <article
+            class="glass-card help-card"
+            data-help-keywords="technical website error loading browser support"
+        >
+            <div class="card-icon">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+
+            <h2>Technical Support</h2>
+
+            <p>
+                Get assistance with website errors and technical problems.
+            </p>
+        </article>
+
+    </div>
+
+    <div class="help-contact glass-panel">
+        <div>
+            <span>Still need help?</span>
+            <h2>Contact our support team</h2>
+            <p>Send your query to support@example.com</p>
+        </div>
+
+        <a href="{% url 'contact' %}" class="button button-primary">
+            Contact Support
+        </a>
+    </div>
+
+</section>
+
+{% endblock %}

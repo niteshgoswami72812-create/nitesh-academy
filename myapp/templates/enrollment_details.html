@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Student Details | Nitesh Academy{% endblock %}
+
+{% block content %}
+<section class="section-container" style="padding:70px 0 100px;">
+    <div class="section-heading">
+        <span class="section-tag"><i class="fa-solid fa-user-graduate"></i> Enrollment</span>
+        <h2>Complete your student details</h2>
+        <p>You are enrolling in <strong>{{ course.name }}</strong>.</p>
+    </div>
+
+    <div class="glass-panel" style="max-width:980px;margin:auto;padding:30px;">
+        {% if form.non_field_errors %}
+            <div class="form-message error">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <form method="post" class="enrollment-form">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group"><label>First Name *</label>{{ form.first_name }}{{ form.first_name.errors }}</div>
+                <div class="form-group"><label>Middle Name</label>{{ form.middle_name }}{{ form.middle_name.errors }}</div>
+                <div class="form-group"><label>Last Name *</label>{{ form.last_name }}{{ form.last_name.errors }}</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group"><label>Date of Birth *</label>{{ form.dob }}{{ form.dob.errors }}</div>
+                <div class="form-group"><label>Mobile Number *</label>{{ form.phone }}{{ form.phone.errors }}</div>
+                <div class="form-group"><label>Alternate Number</label>{{ form.alternate_phone }}{{ form.alternate_phone.errors }}</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group"><label>Email *</label>{{ form.email }}{{ form.email.errors }}</div>
+                <div class="form-group"><label>Gender</label>{{ form.gender }}{{ form.gender.errors }}</div>
+                <div class="form-group"><label>Aadhaar Last 4 Digits</label>{{ form.aadhaar_last4 }}{{ form.aadhaar_last4.errors }}<small style="color:var(--text-muted);">Only last 4 digits. Do not enter full Aadhaar number.</small></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group"><label>Current Study / Education *</label>{{ form.current_study }}{{ form.current_study.errors }}</div>
+                <div class="form-group"><label>Highest Qualification</label>{{ form.highest_qualification }}{{ form.highest_qualification.errors }}</div>
+                <div class="form-group"><label>School / College / Institute</label>{{ form.institute_name }}{{ form.institute_name.errors }}</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group"><label>Work Status *</label>{{ form.occupation_status }}{{ form.occupation_status.errors }}</div>
+                <div class="form-group"><label>Job Title</label>{{ form.job_title }}{{ form.job_title.errors }}</div>
+                <div class="form-group"><label>Company Name</label>{{ form.company_name }}{{ form.company_name.errors }}</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group"><label>City *</label>{{ form.city }}{{ form.city.errors }}</div>
+                <div class="form-group"><label>State *</label>{{ form.state }}{{ form.state.errors }}</div>
+                <div class="form-group"><label>PIN Code *</label>{{ form.pincode }}{{ form.pincode.errors }}</div>
+            </div>
+
+            <div class="form-group"><label>Current Address *</label>{{ form.address }}{{ form.address.errors }}</div>
+
+            <div class="form-row">
+                <div class="form-group"><label>Parent / Guardian Name</label>{{ form.guardian_name }}{{ form.guardian_name.errors }}</div>
+                <div class="form-group"><label>Emergency Contact</label>{{ form.emergency_contact }}{{ form.emergency_contact.errors }}</div>
+            </div>
+
+            <label style="display:flex;gap:10px;align-items:flex-start;margin:20px 0;color:var(--text-secondary);">
+                <input type="checkbox" required style="width:auto;min-height:auto;margin-top:5px;">
+                <span>I confirm that the information entered above is correct and I agree that Nitesh Academy may store it for enrollment and course administration.</span>
+            </label>
+
+            <button type="submit" class="button button-primary button-large" style="width:100%;">
+                <i class="fa-solid fa-circle-check"></i> Register Enrollment
+            </button>
+        </form>
+    </div>
+</section>
+
+<style>
+.enrollment-form input,.enrollment-form select,.enrollment-form textarea{width:100%;min-height:50px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text-primary);outline:none}.enrollment-form textarea{min-height:100px}.enrollment-form select option{color:#111;background:#fff}.enrollment-form .form-row{grid-template-columns:repeat(3,1fr)}.enrollment-form .errorlist{list-style:none;color:#ff8f9a;font-size:.8rem;margin-top:5px}@media(max-width:800px){.enrollment-form .form-row{grid-template-columns:1fr}}
+</style>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Enrollment Successful | Nitesh Academy{% endblock %}
+
+{% block content %}
+<section class="section-container" style="padding:80px 0 110px;">
+    <div class="glass-panel" style="max-width:760px;margin:auto;padding:38px;">
+        <div style="text-align:center;margin-bottom:30px;">
+            <div style="font-size:3rem;color:var(--success);"><i class="fa-solid fa-circle-check"></i></div>
+            <h1 style="font-size:2.3rem;margin:10px 0;">Enrollment Successful</h1>
+            <p>Your registration details have been saved.</p>
+        </div>
+
+        <div style="display:grid;gap:12px;">
+            <div class="glass-card" style="padding:16px;"><strong>Course</strong><p>{{ enrollment.course.name }}</p></div>
+            <div class="glass-card" style="padding:16px;"><strong>Student</strong><p>{{ enrollment.student.fullname }}</p></div>
+            <div class="glass-card" style="padding:16px;"><strong>Email</strong><p>{{ profile.email }}</p></div>
+            <div class="glass-card" style="padding:16px;"><strong>Mobile</strong><p>{{ profile.phone }}</p></div>
+            <div class="glass-card" style="padding:16px;"><strong>Status</strong><p>{{ enrollment.status|title }}</p></div>
+        </div>
+
+     
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap;">
+            <a href="{% url 'courses' %}" class="button button-primary">View Courses</a>
+            <a href="{% url 'home' %}" class="button button-outline">Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

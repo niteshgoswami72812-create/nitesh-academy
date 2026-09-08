@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+Checkout | Nitesh Academy
+{% endblock %}
+
+{% block content %}
+
+<section class="page-hero section-container">
+    <span class="section-tag">
+        <i class="fa-solid fa-credit-card"></i>
+        Secure Checkout
+    </span>
+
+    <h1>Complete your course enrollment</h1>
+
+    <p>
+        Review your selected courses before completing payment.
+    </p>
+</section>
+
+<section class="checkout-section section-container">
+
+    <div class="checkout-layout">
+
+        <div class="checkout-items glass-panel">
+
+            <h2>Your Courses</h2>
+
+            <div id="checkoutCartItems">
+                <p>Loading selected courses...</p>
+            </div>
+
+        </div>
+
+        <aside class="checkout-summary glass-panel">
+
+            <h2>Order Summary</h2>
+
+            <div class="summary-row">
+                <span>Subtotal</span>
+
+                <strong>
+                    ₹<span id="checkoutSubtotal">0.00</span>
+                </strong>
+            </div>
+
+            <div class="summary-row">
+                <span>Discount</span>
+                <strong>₹0.00</strong>
+            </div>
+
+            <div class="summary-row summary-total">
+                <span>Total</span>
+
+                <strong>
+                    ₹<span id="checkoutTotal">0.00</span>
+                </strong>
+            </div>
+
+            <form
+                id="checkoutPaymentForm"
+                action="{% url 'payment_page' %}"
+                method="POST"
+            >
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="cart"
+                    id="checkoutCartData"
+                >
+
+                <input
+                    type="hidden"
+                    name="total"
+                    id="checkoutTotalData"
+                >
+
+                <button
+                    type="submit"
+                    class="button button-primary authentication-submit"
+                    id="placeOrderButton"
+                >
+                    Proceed to Payment
+                    <i class="fa-solid fa-lock"></i>
+                </button>
+            </form>
+
+        </aside>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,391 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+{{ page_title }} | Nitesh Academy
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+.page-header {
+    margin-bottom:25px;
+}
+
+.page-header h1 {
+    font-size:28px;
+}
+
+.page-header p {
+    color:#818a99;
+    margin-top:7px;
+}
+
+.form-card {
+    padding:25px;
+    margin-bottom:20px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(16,21,30,.75);
+}
+
+.form-card h3 {
+    margin-bottom:20px;
+    font-size:17px;
+}
+
+.form-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.form-group {
+    margin-bottom:18px;
+}
+
+.form-group.full {
+    grid-column:1/-1;
+}
+
+label {
+    display:block;
+    margin-bottom:8px;
+    font-size:12px;
+    color:#aeb6c2;
+}
+
+.form-control {
+    width:100%;
+    padding:12px 14px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:9px;
+    background:rgba(255,255,255,.04);
+    color:white;
+    outline:none;
+}
+
+select.form-control option {
+    color:black;
+}
+
+.form-control:focus {
+    border-color:#ff474f;
+}
+
+.inline-item {
+    position:relative;
+    margin-bottom:13px;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.025);
+}
+
+.option-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.checkbox-area {
+    display:flex;
+    gap:20px;
+    margin-top:12px;
+}
+
+.submit-row {
+    display:flex;
+    gap:10px;
+}
+
+.save-btn {
+    padding:13px 22px;
+    border:none;
+    border-radius:9px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(135deg,#ff474f,#bd2027);
+    font-weight:700;
+}
+
+.cancel-btn {
+    padding:13px 22px;
+    border-radius:9px;
+    background:rgba(255,255,255,.06);
+}
+
+.errorlist {
+    margin:8px 0;
+    color:#fb7185;
+    font-size:11px;
+    list-style:none;
+}
+
+@media(max-width:700px) {
+
+    .form-grid,
+    .option-grid {
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>
+        {{ page_title }}
+    </h1>
+
+    <p>
+        Manage course details, topics and course options.
+    </p>
+
+</div>
+
+
+<form method="POST">
+
+    {% csrf_token %}
+
+
+    <div class="form-card">
+
+        <h3>
+            Course Information
+        </h3>
+
+        {{ form.non_field_errors }}
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label>
+                    Course Name
+                </label>
+
+                {{ form.name }}
+                {{ form.name.errors }}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Category
+                </label>
+
+                {{ form.category }}
+                {{ form.category.errors }}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Duration
+                </label>
+
+                {{ form.duration }}
+                {{ form.duration.errors }}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Price
+                </label>
+
+                {{ form.price }}
+                {{ form.price.errors }}
+
+            </div>
+
+
+            <div class="form-group full">
+
+                <label>
+                    Description
+                </label>
+
+                {{ form.description }}
+                {{ form.description.errors }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="form-card">
+
+        <h3>
+            Course Topics
+        </h3>
+
+        {{ topic_formset.management_form }}
+
+        {% for topic_form in topic_formset %}
+
+            <div class="inline-item">
+
+                {{ topic_form.id }}
+
+                <div class="form-group">
+
+                    <label>
+                        Topic
+                    </label>
+
+                    {{ topic_form.name }}
+                    {{ topic_form.name.errors }}
+
+                </div>
+
+                {% if topic_form.instance.pk %}
+
+                    <label>
+                        {{ topic_form.DELETE }}
+                        Delete Topic
+                    </label>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+
+    <div class="form-card">
+
+        <h3>
+            Course Options
+        </h3>
+
+        {{ option_formset.management_form }}
+
+        {% for option_form in option_formset %}
+
+            <div class="inline-item">
+
+                {{ option_form.id }}
+
+                <div class="option-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Option Name
+                        </label>
+
+                        {{ option_form.name }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Extra Price
+                        </label>
+
+                        {{ option_form.price_delta }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Description
+                        </label>
+
+                        {{ option_form.description }}
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Sort Order
+                        </label>
+
+                        {{ option_form.sort_order }}
+
+                    </div>
+
+                </div>
+
+
+                <div class="checkbox-area">
+
+                    <label>
+                        {{ option_form.is_default }}
+                        Default
+                    </label>
+
+                    <label>
+                        {{ option_form.is_active }}
+                        Active
+                    </label>
+
+                    {% if option_form.instance.pk %}
+
+                        <label>
+                            {{ option_form.DELETE }}
+                            Delete
+                        </label>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+
+    <div class="submit-row">
+
+        <button
+            type="submit"
+            class="save-btn"
+        >
+            {{ button_text }}
+        </button>
+
+
+        <a
+            href="{% url 'dashboard_courses' %}"
+            class="cancel-btn"
+        >
+            Cancel
+        </a>
+
+    </div>
+
+</form>
+
+{% endblock %}

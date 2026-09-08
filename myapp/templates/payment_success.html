@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Receipt | Nitesh Academy{% endblock %}
+
+{% block extra_css %}
+<style>
+.receipt-page{padding:55px 0 90px}.receipt-card{max-width:900px;margin:auto;padding:34px}.receipt-head{display:flex;justify-content:space-between;gap:20px;padding-bottom:24px;border-bottom:1px solid var(--border)}.receipt-brand h1{font-size:1.6rem}.receipt-brand p{margin-top:5px}.paid-badge{height:fit-content;padding:9px 14px;border-radius:999px;color:#22c55e;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);font-weight:800}.receipt-title{text-align:center;padding:28px 0}.receipt-title i{font-size:45px;color:#22c55e;margin-bottom:10px}.receipt-title h2{font-size:2rem}.receipt-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.receipt-box{padding:20px;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.035)}.receipt-box h3{margin-bottom:14px;color:var(--primary-light);font-size:1rem}.receipt-row{display:flex;justify-content:space-between;gap:18px;padding:8px 0;border-bottom:1px solid var(--border)}.receipt-row:last-child{border-bottom:0}.receipt-row span{color:var(--text-muted)}.receipt-row strong{text-align:right;word-break:break-word}.receipt-items{margin-top:18px;padding:20px;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.035)}.receipt-item{display:grid;grid-template-columns:1fr auto;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}.receipt-item:last-child{border-bottom:0}.receipt-item small{display:block;color:var(--text-muted);margin-top:4px}.receipt-total{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding:20px;border-radius:16px;background:rgba(255,63,70,.10);border:1px solid rgba(255,63,70,.22)}.receipt-total strong{font-size:1.8rem}.receipt-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:25px}@media(max-width:700px){.receipt-grid{grid-template-columns:1fr}.receipt-head{flex-direction:column}.receipt-card{padding:22px}.receipt-row{flex-direction:column;gap:2px}.receipt-row strong{text-align:left}}@media print{.site-header,.site-footer,.receipt-actions,.background-glow{display:none!important}.receipt-page{padding:0}.receipt-card{box-shadow:none!important;border:0!important;max-width:none}.main-content{min-height:auto}}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="section-container receipt-page">
+    <div class="glass-panel receipt-card">
+        <div class="receipt-head">
+            <div class="receipt-brand">
+                <h1>Nitesh Academy</h1>
+                <p>Official Course Payment Receipt</p>
+            </div>
+            <div class="paid-badge"><i class="fa-solid fa-circle-check"></i> {{ receipt.status|upper }}</div>
+        </div>
+
+        <div class="receipt-title">
+            <i class="fa-solid fa-circle-check"></i>
+            <h2>Payment Successful</h2>
+            <p>Thank you. Your payment has been verified successfully.</p>
+        </div>
+
+        <div class="receipt-grid">
+            <div class="receipt-box">
+                <h3>Student Details</h3>
+                <div class="receipt-row"><span>Name</span><strong>{{ receipt.student.fullname|default:"Not available" }}</strong></div>
+                <div class="receipt-row"><span>Email</span><strong>{{ receipt.student.email|default:"Not available" }}</strong></div>
+                <div class="receipt-row"><span>Username</span><strong>{{ receipt.student.username|default:"Not available" }}</strong></div>
+                <div class="receipt-row"><span>Date of Birth</span><strong>{% if receipt.student.dob %}{{ receipt.student.dob|date:"d M Y" }}{% else %}Not provided{% endif %}</strong></div>
+            </div>
+
+            <div class="receipt-box">
+                <h3>Payment Details</h3>
+                <div class="receipt-row"><span>Receipt No.</span><strong>{{ receipt.receipt_number }}</strong></div>
+                <div class="receipt-row"><span>Payment ID</span><strong>{{ receipt.razorpay_payment_id }}</strong></div>
+                <div class="receipt-row"><span>Order ID</span><strong>{{ receipt.razorpay_order_id }}</strong></div>
+                <div class="receipt-row"><span>Paid On</span><strong>{{ receipt.paid_at|date:"d M Y, h:i A" }}</strong></div>
+                <div class="receipt-row"><span>Method</span><strong>{{ receipt.method|default:"Online"|upper }}</strong></div>
+                {% if receipt.bank %}<div class="receipt-row"><span>Bank</span><strong>{{ receipt.bank }}</strong></div>{% endif %}
+                {% if receipt.wallet %}<div class="receipt-row"><span>Wallet</span><strong>{{ receipt.wallet }}</strong></div>{% endif %}
+                {% if receipt.vpa %}<div class="receipt-row"><span>UPI ID</span><strong>{{ receipt.vpa }}</strong></div>{% endif %}
+                {% if receipt.card_last4 %}<div class="receipt-row"><span>Card</span><strong>{{ receipt.card_network }} •••• {{ receipt.card_last4 }}</strong></div>{% endif %}
+            </div>
+        </div>
+
+        <div class="receipt-items">
+            <h3>Purchased Courses</h3>
+            {% for item in receipt.items.all %}
+            <div class="receipt-item">
+                <div>
+                    <strong>{{ item.course_name }}</strong>
+                    <small>Qty: {{ item.quantity }}{% if item.options %} · {{ item.options }}{% endif %}</small>
+                </div>
+                <strong>₹{{ item.line_total|floatformat:2 }}</strong>
+            </div>
+            {% empty %}
+            <p>No course details available.</p>
+            {% endfor %}
+        </div>
+
+        <div class="receipt-total">
+            <span>Total Paid</span>
+            <strong>₹{{ receipt.amount|floatformat:2 }}</strong>
+        </div>
+
+        <div class="receipt-actions">
+            <button class="button button-primary" onclick="window.print()"><i class="fa-solid fa-print"></i> Print / Save PDF</button>
+            <a class="button button-glass" href="{% url 'payment_receipt' receipt.receipt_number %}"><i class="fa-solid fa-receipt"></i> Open Receipt</a>
+            <a class="button button-glass" href="{% url 'courses' %}">View Courses</a>
+        </div>
+    </div>
+</section>
+<script>localStorage.removeItem("niteshAcademyCart");</script>
+{% endblock %}

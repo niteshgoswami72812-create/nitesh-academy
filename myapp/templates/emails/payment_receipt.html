@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Receipt</title>
+</head>
+<body style="margin:0;background:#f4f7fb;font-family:Arial,sans-serif;padding:30px;">
+
+<div style="
+    max-width:700px;
+    margin:auto;
+    background:#ffffff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 25px rgba(0,0,0,.10);
+">
+
+    <div style="background:#2563eb;color:white;padding:25px;text-align:center;">
+        <h1 style="margin:0;">Nitesh Academy</h1>
+        <p style="margin:8px 0 0;">Official Payment Receipt</p>
+    </div>
+
+    <div style="padding:30px;">
+
+        <h2 style="color:#16a34a;">Payment Successful</h2>
+
+        <p>
+            Hello
+            <strong>
+                {% if profile %}
+                    {{ profile.first_name }} {{ profile.middle_name }} {{ profile.last_name }}
+                {% else %}
+                    {{ student.fullname }}
+                {% endif %}
+            </strong>,
+        </p>
+
+        <p>Your payment has been successfully received.</p>
+
+        <hr>
+
+        <h3>Student Details</h3>
+
+        <p><strong>Name:</strong>
+            {% if profile %}
+                {{ profile.first_name }} {{ profile.middle_name }} {{ profile.last_name }}
+            {% else %}
+                {{ student.fullname }}
+            {% endif %}
+        </p>
+
+        <p><strong>Email:</strong>
+            {% if profile %}
+                {{ profile.email }}
+            {% else %}
+                {{ student.email }}
+            {% endif %}
+        </p>
+
+        {% if profile.phone %}
+        <p><strong>Mobile:</strong> {{ profile.phone }}</p>
+        {% endif %}
+
+        {% if profile.dob %}
+        <p><strong>Date of Birth:</strong> {{ profile.dob|date:"d-m-Y" }}</p>
+        {% endif %}
+
+        {% if profile.city %}
+        <p><strong>City:</strong> {{ profile.city }}</p>
+        {% endif %}
+
+        <hr>
+
+        <h3>Payment Details</h3>
+
+        <p><strong>Receipt No:</strong> {{ receipt.receipt_number }}</p>
+        <p><strong>Payment ID:</strong> {{ receipt.razorpay_payment_id }}</p>
+        <p><strong>Order ID:</strong> {{ receipt.razorpay_order_id }}</p>
+        <p><strong>Status:</strong> {{ receipt.status|title }}</p>
+        <p><strong>Method:</strong> {{ receipt.method|default:"Online Payment"|title }}</p>
+
+        {% if receipt.bank %}
+        <p><strong>Bank:</strong> {{ receipt.bank }}</p>
+        {% endif %}
+
+        {% if receipt.wallet %}
+        <p><strong>Wallet:</strong> {{ receipt.wallet }}</p>
+        {% endif %}
+
+        {% if receipt.vpa %}
+        <p><strong>UPI:</strong> {{ receipt.vpa }}</p>
+        {% endif %}
+
+        {% if receipt.card_last4 %}
+        <p>
+            <strong>Card:</strong>
+            {{ receipt.card_network }} ending {{ receipt.card_last4 }}
+        </p>
+        {% endif %}
+
+        <p>
+            <strong>Paid On:</strong>
+            {{ receipt.paid_at|date:"d M Y, h:i A" }}
+        </p>
+
+        <hr>
+
+        <h3>Purchased Courses</h3>
+
+        {% for item in receipt.items.all %}
+            <div style="
+                border:1px solid #e5e7eb;
+                padding:15px;
+                border-radius:10px;
+                margin-bottom:12px;
+            ">
+                <strong>{{ item.course_name }}</strong>
+
+                {% if item.options %}
+                <p>Options: {{ item.options }}</p>
+                {% endif %}
+
+                <p>Quantity: {{ item.quantity }}</p>
+                <p>Price: ₹{{ item.unit_price }}</p>
+                <p><strong>Total: ₹{{ item.line_total }}</strong></p>
+            </div>
+        {% empty %}
+            <p>No course information available.</p>
+        {% endfor %}
+
+        <div style="
+            margin-top:25px;
+            background:#eff6ff;
+            padding:20px;
+            border-radius:10px;
+            text-align:right;
+        ">
+            <h2 style="margin:0;color:#2563eb;">
+                Total Paid: ₹{{ receipt.amount }}
+            </h2>
+        </div>
+
+        <p style="margin-top:30px;color:#64748b;">
+            Thank you for choosing Nitesh Academy.
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>

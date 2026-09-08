@@ -1,0 +1,84 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block content %}
+
+<h1 style="margin-bottom:25px;">
+    {{ page_title }}
+</h1>
+
+
+<form
+    method="POST"
+    style="
+        max-width:700px;
+        padding:25px;
+        border-radius:16px;
+        background:rgba(15,20,29,.8);
+        border:1px solid rgba(255,255,255,.08);
+    "
+>
+
+    {% csrf_token %}
+
+    {% for field in form %}
+
+        <div style="margin-bottom:20px;">
+
+            <label
+                style="
+                    display:block;
+                    margin-bottom:8px;
+                    color:#aaa;
+                "
+            >
+                {{ field.label }}
+            </label>
+
+            {{ field }}
+
+            {{ field.errors }}
+
+        </div>
+
+    {% endfor %}
+
+
+    <button
+        type="submit"
+        style="
+            border:none;
+            padding:12px 20px;
+            border-radius:9px;
+            cursor:pointer;
+            color:white;
+            background:#df3038;
+        "
+    >
+        {{ button_text }}
+    </button>
+
+
+    <a
+        href="{% url 'dashboard_categories' %}"
+        style="margin-left:15px;"
+    >
+        Cancel
+    </a>
+
+</form>
+
+<style>
+
+.form-control {
+    width:100%;
+    padding:12px 14px;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:9px;
+    background:rgba(255,255,255,.04);
+    color:white;
+    outline:none;
+}
+
+</style>
+
+{% endblock %}
