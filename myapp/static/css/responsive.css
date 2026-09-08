@@ -1,0 +1,58 @@
+/* Nitesh Academy - mobile/tablet responsive overrides */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, video, iframe { max-width: 100%; height: auto; }
+input, select, textarea, button { max-width: 100%; }
+
+@media (max-width: 900px) {
+  .header-container { position: relative; }
+  .mobile-menu-button { order: 3; }
+  .main-navigation { z-index: 1200; max-height: calc(100vh - 90px); overflow-y: auto; }
+  .main-navigation.active { display: flex; }
+  .header-actions { display: flex !important; margin-left: auto; gap: 8px; }
+  .header-actions .button, .header-actions .user-welcome { display: none !important; }
+  .header-actions .cart-link span:not(.cart-count) { display: none; }
+  .cart-link { min-width: 44px; justify-content: center; padding-inline: 10px !important; }
+  .nav-theme-toggle { flex: 0 0 auto; }
+  .checkout-layout, .authentication-wrapper, .contact-section, .about-section { min-width: 0; }
+}
+
+@media (max-width: 650px) {
+  .section-container { width: calc(100% - 24px) !important; }
+  .header-container { width: calc(100% - 20px) !important; min-height: 64px !important; padding-inline: 4px !important; gap: 6px !important; }
+  .site-header { height: 66px !important; }
+  .brand-logo { width: 38px !important; height: 38px !important; }
+  .main-navigation { left: 10px !important; right: 10px !important; border-radius: 14px !important; }
+  .hero-section { padding-top: 38px !important; padding-bottom: 48px !important; }
+  .hero-content h1, .next-hero .hero-content h1 { font-size: clamp(2.25rem, 12vw, 3.15rem) !important; overflow-wrap: anywhere; }
+  .hero-content > p { font-size: .98rem; }
+  .hero-statistics { display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)); width: 100%; }
+  .hero-statistics > * { min-width: 0; }
+  .hero-image-card, .glass-panel { max-width: 100%; }
+  .cta-panel { padding: 24px 18px !important; }
+  .course-display, .cart-panel, .authentication-card, .contact-form-card { padding: 18px !important; }
+  .checkout-item, .cart-item { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .checkout-item-price, .cart-item-price { text-align: left !important; min-width: 0 !important; }
+  .checkout-quantity-control { width: fit-content; }
+  .remove-cart-item, .remove-checkout-item { justify-self: start; }
+  .receipt-page { padding: 28px 0 55px !important; }
+  .receipt-card { padding: 18px !important; }
+  .receipt-title { padding: 20px 0 !important; }
+  .receipt-title h2 { font-size: 1.55rem !important; }
+  .receipt-total { align-items: flex-start !important; flex-direction: column; gap: 8px; }
+  .receipt-total strong { font-size: 1.5rem !important; }
+  .receipt-item { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .enrollment-form .form-row, .form-row { grid-template-columns: 1fr !important; }
+  .enrollment-form input, .enrollment-form select, .enrollment-form textarea { font-size: 16px; }
+  .page-hero h1, .catalog-heading h1 { overflow-wrap: anywhere; }
+  .course-option-row { min-width: 0; }
+  .option-copy { min-width: 0; }
+  .option-copy strong, .option-copy small { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 420px) {
+  .header-actions { gap: 4px !important; }
+  .nav-theme-toggle, .cart-link, .mobile-menu-button { width: 40px !important; min-width: 40px !important; height: 40px !important; }
+  .hero-statistics { grid-template-columns: 1fr 1fr; gap: 12px !important; }
+  .button { max-width: 100%; }
+  .course-main-card, .course-buy-card { padding: 15px !important; }
+}
