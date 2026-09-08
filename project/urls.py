@@ -1,15 +1,70 @@
+import os
+
 from django.contrib import admin
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.urls import path
 
 from myapp import views
 
 
+def create_admin_temp(request):
+    token = request.GET.get("token", "")
+    expected_token = os.environ.get("TEMP_ADMIN_TOKEN", "").strip()
+
+    if not expected_token or token != expected_token:
+        return HttpResponse("Unauthorized", status=403)
+
+    username = os.environ.get("TEMP_ADMIN_USERNAME", "").strip()
+    password = os.environ.get("TEMP_ADMIN_PASSWORD", "").strip()
+    email = os.environ.get("TEMP_ADMIN_EMAIL", "").strip()
+
+    if not username or not password:
+        return HttpResponse(
+            "TEMP_ADMIN_USERNAME or TEMP_ADMIN_PASSWORD is missing.",
+            status=500,
+        )
+
+    user, created = User.objects.get_or_create(
+        username=username,
+        defaults={
+            "email": email,
+        },
+    )
+
+    user.email = email
+    user.is_staff = True
+    user.is_superuser = True
+    user.is_active = True
+    user.set_password(password)
+    user.save()
+
+    if created:
+        return HttpResponse("Admin created successfully.")
+
+    return HttpResponse("Admin password reset successfully.")
+
+
 urlpatterns = [
 
-    # Django default admin
+    # ==========================================
+    # DJANGO DEFAULT ADMIN
+    # ==========================================
+
     path(
         "admin/",
         admin.site.urls,
+    ),
+
+    # ==========================================
+    # TEMP ADMIN CREATION
+    # Delete this route after admin is created
+    # ==========================================
+
+    path(
+        "create-admin-temp/",
+        create_admin_temp,
+        name="create_admin_temp",
     ),
 
     # ==========================================
@@ -106,11 +161,19 @@ urlpatterns = [
         name="dashboard_student_delete",
     ),
 
+    # ==========================================
+    # DASHBOARD - ENROLLMENTS
+    # ==========================================
+
     path(
         "dashboard/enrollments/",
         views.dashboard_enrollments,
         name="dashboard_enrollments",
     ),
+
+    # ==========================================
+    # DASHBOARD - PAYMENTS
+    # ==========================================
 
     path(
         "dashboard/payments/",
@@ -189,6 +252,10 @@ urlpatterns = [
         views.logout_view,
         name="logout",
     ),
+
+    # ==========================================
+    # ENROLLMENT
+    # ==========================================
 
     path(
         "enroll/<int:course_id>/",
