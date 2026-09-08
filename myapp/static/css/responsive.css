@@ -56,3 +56,31 @@ input, select, textarea, button { max-width: 100%; }
   .button { max-width: 100%; }
   .course-main-card, .course-buy-card { padding: 15px !important; }
 }
+
+/* Theme-aware NIT CODERS logo */
+.brand-logo-wrap {
+  position: relative; display: inline-grid; place-items: center;
+  width: 66px; height: 54px; flex: 0 0 66px;
+  border: 1px solid var(--border); border-radius: 14px;
+  background: var(--surface); overflow: hidden;
+}
+.brand-logo-wrap .brand-logo {
+  position: absolute; width: 62px !important; height: 46px !important;
+  padding: 0 !important; border: 0 !important; border-radius: 0 !important;
+  background: transparent !important; box-shadow: none !important; object-fit: contain;
+}
+.brand-logo-dark, .transition-logo-dark { display: block !important; }
+.brand-logo-light, .transition-logo-light { display: none !important; }
+html[data-theme="light"] .brand-logo-dark,
+html[data-theme="light"] .transition-logo-dark { display: none !important; }
+html[data-theme="light"] .brand-logo-light,
+html[data-theme="light"] .transition-logo-light { display: block !important; }
+.transition-logo img { position: absolute; width: calc(100% - 20px) !important; height: calc(100% - 14px) !important; object-fit: contain; }
+@media (max-width: 650px) {
+  .brand-logo-wrap { width: 58px; height: 46px; flex-basis: 58px; }
+  .brand-logo-wrap .brand-logo { width: 54px !important; height: 40px !important; }
+}
+@media (max-width: 420px) {
+  .brand-logo-wrap { width: 54px; height: 44px; flex-basis: 54px; }
+  .brand-logo-wrap .brand-logo { width: 50px !important; height: 38px !important; }
+}
