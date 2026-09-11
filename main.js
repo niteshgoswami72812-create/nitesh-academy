@@ -1368,7 +1368,7 @@ function initializePageTransitionsEarly() {
 
         if (transitionLabel) {
             transitionLabel.textContent =
-                "Nitesh Academy";
+                "NIT CODERS";
         }
 
         body.classList.remove("page-entering");

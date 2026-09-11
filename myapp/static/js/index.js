@@ -1033,7 +1033,7 @@ function initializeAnimatedCounters(reducedMotion) {
         if (body.classList.contains("page-leaving")) return;
 
         if (transitionLabel) {
-            transitionLabel.textContent = "Nitesh Academy";
+            transitionLabel.textContent = "NIT CODERS";
         }
 
         body.classList.remove("page-entering");
