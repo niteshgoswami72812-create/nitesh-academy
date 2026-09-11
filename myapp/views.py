@@ -527,7 +527,7 @@ def enrollment_details(request):
             subject = f"Enrollment Successful - {course.name}"
             email_body = (
                 f"Hello {full_name},\n\n"
-                f"Your enrollment registration at Nitesh Academy was successful.\n\n"
+                f"Your enrollment registration at NIT CODERS was successful.\n\n"
                 f"Course: {course.name}\n"
                 f"Duration: {course.duration}\n"
                 f"Name: {full_name}\n"
@@ -537,7 +537,7 @@ def enrollment_details(request):
                 f"Current Study: {profile.current_study}\n"
                 f"City: {profile.city}\n"
                 f"Status: {enrollment.status.title()}\n\n"
-                "Thank you,\nNitesh Academy"
+                "Thank you,\nNIT CODERS"
             )
 
             email_sent = False
@@ -549,7 +549,7 @@ def enrollment_details(request):
                 resend.Emails.send({
                     "from": os.environ.get(
                         "RESEND_FROM_EMAIL",
-                        "Nitesh Academy <onboarding@resend.dev>",
+                        "NIT CODERS <onboarding@resend.dev>",
                     ).strip(),
                     "to": [profile.email],
                     "subject": subject,
@@ -1128,14 +1128,14 @@ def payment_success(request):
 
         plain_message = (
             f"Hello {student.fullname if student else 'Student'},\n\n"
-            "Your payment has been successfully received by Nitesh Academy.\n\n"
+            "Your payment has been successfully received by NIT CODERS.\n\n"
             f"Receipt No: {payment_record.receipt_number}\n"
             f"Payment ID: {payment_record.razorpay_payment_id}\n"
             f"Order ID: {payment_record.razorpay_order_id}\n"
             f"Amount Paid: Rs. {payment_record.amount}\n"
             f"Payment Method: {payment_record.method or 'Online'}\n\n"
             f"Courses:\n{plain_items}\n\n"
-            "Thank you for choosing Nitesh Academy."
+            "Thank you for choosing NIT CODERS."
         )
 
         # Professional dark-theme PDF receipt attachment
@@ -1206,7 +1206,7 @@ def payment_success(request):
 
         pdf.setFillColor(white)
         pdf.setFont("Helvetica-Bold", 22)
-        pdf.drawString(margin + 22, header_y + 70, "NITESH ACADEMY")
+        pdf.drawString(margin + 22, header_y + 70, "NIT CODERS")
         pdf.setFillColor(muted)
         pdf.setFont("Helvetica", 10)
         pdf.drawString(margin + 22, header_y + 50, "OFFICIAL PAYMENT RECEIPT")
@@ -1384,7 +1384,7 @@ def payment_success(request):
         pdf.line(margin, footer_y + 26, margin + content_width, footer_y + 26)
         pdf.setFillColor(muted)
         pdf.setFont("Helvetica", 8)
-        pdf.drawString(margin, footer_y + 8, "Thank you for choosing Nitesh Academy.")
+        pdf.drawString(margin, footer_y + 8, "Thank you for choosing NIT CODERS.")
         pdf.drawRightString(
             margin + content_width,
             footer_y + 8,
@@ -1404,7 +1404,7 @@ def payment_success(request):
             resend.Emails.send({
                 "from": os.environ.get(
                     "RESEND_FROM_EMAIL",
-                    "Nitesh Academy <onboarding@resend.dev>",
+                    "NIT CODERS<onboarding@resend.dev>",
                 ).strip(),
                 "to": [receipt_email],
                 "subject": f"Payment Receipt - {payment_record.receipt_number}",

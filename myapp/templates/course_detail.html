@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ course.name }} | Nitesh Academy{% endblock %}
+{% block title %}{{ course.name }} |  NIT CODERS{% endblock %}
 
 {% block content %}
 <section class="section-container course-detail-page">
     <nav class="catalog-breadcrumb" aria-label="Breadcrumb">
-        <a href="{% url 'courses' %}">Courses</a><i class="fa-solid fa-chevron-right"></i>
-        <a href="{% url 'category_courses' course.category.id %}">{{ course.category.name }}</a><i class="fa-solid fa-chevron-right"></i>
+        <a href="{% url 'courses' %}">Courses</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="{% url 'category_courses' course.category.id %}">{{ course.category.name }}</a>
+        <i class="fa-solid fa-chevron-right"></i>
         <span>{{ course.name }}</span>
     </nav>
 
     <div class="course-detail-layout">
         <article class="course-main-card glass-panel">
-            <span class="section-tag"><i class="fa-solid fa-graduation-cap"></i> {{ course.category.name }}</span>
+            <span class="section-tag">
+                <i class="fa-solid fa-graduation-cap"></i>
+                 {{ course.category.name }}</span>
             <h1>{{ course.name }}</h1>
             <p class="course-lead">{{ course.description|default:'Learn through structured lessons, practical assignments and project-based guidance.' }}</p>
 

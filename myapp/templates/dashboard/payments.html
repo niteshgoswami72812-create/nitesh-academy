@@ -1,5 +1,5 @@
 {% extends "dashboard/dashboard_base.html" %}
-{% block title %}Payments | Nitesh Academy{% endblock %}
+{% block title %}Payments | NIT CODERS{% endblock %}
 {% block extra_css %}
 <style>
 .page-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:22px}.page-head h1{font-size:28px}.search-form{display:flex;gap:10px}.search-form input{min-width:280px;padding:11px 13px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:#fff}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.025)}table{width:100%;border-collapse:collapse;min-width:900px}th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border)}th{color:#8f98a8;font-size:12px;text-transform:uppercase}td{font-size:13px}.paid{color:#22c55e;font-weight:800}.receipt-link{color:#60a5fa;font-weight:700}@media(max-width:700px){.page-head{align-items:stretch;flex-direction:column}.search-form input{min-width:0;width:100%}}
@@ -7,7 +7,10 @@
 {% endblock %}
 {% block content %}
 <div class="page-head">
-    <div><h1>Payments</h1><p style="color:#8f98a8;margin-top:5px">Verified student payment history</p></div>
+    <div>
+        <h1>Payments</h1>
+        <p style="color:#8f98a8;margin-top:5px">Verified student payment history</p>
+    </div>
     <form class="search-form" method="GET">
         <input name="search" value="{{ search }}" placeholder="Search receipt, payment ID, student...">
         <button class="top-icon" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -15,7 +18,18 @@
 </div>
 <div class="table-wrap">
 <table>
-<thead><tr><th>Receipt</th><th>Student</th><th>Courses</th><th>Method</th><th>Amount</th><th>Status</th><th>Date</th><th>View</th></tr></thead>
+<thead>
+    <tr>
+        <th>Receipt</th>
+        <th>Student</th>
+        <th>Courses</th>
+        <th>Method</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>View</th>
+    </tr>
+</thead>
 <tbody>
 {% for payment in payments %}
 <tr>
@@ -29,7 +43,9 @@
 <td><a class="receipt-link" target="_blank" href="{% url 'payment_receipt' payment.receipt_number %}">Receipt</a></td>
 </tr>
 {% empty %}
-<tr><td colspan="8" style="text-align:center;color:#8f98a8;padding:30px">No payments found.</td></tr>
+<tr>
+    <td colspan="8" style="text-align:center;color:#8f98a8;padding:30px">No payments found.</td>
+</tr>
 {% endfor %}
 </tbody>
 </table>
